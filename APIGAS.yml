@@ -3,7 +3,7 @@ info:
   title: GAS - API de Integração com Adaptor Assessoria
   description: '[![Personal](https://s3.amazonaws.com/ps.public/images/logo_PersonalSoft_horizontal_COR-e1448044980572.png)](http://www.personalsoft.net.br)<p> Permite integração de Carga, Acordo, Pagamento, Retirada  e Eventos para Gestão de Assessoria - GAS'
   version: v1
-host: localhost:44303
+host:  
 schemes:
   - http
 paths:
@@ -66,10 +66,6 @@ paths:
           description: BadRequest
           schema:
             type: string
-        '401':
-          description: Unauthorized
-          schema:
-            type: string
         '500':
           description: InternalServerError
           schema:
@@ -99,10 +95,6 @@ paths:
           description: BadRequest
           schema:
             type: string
-        '401':
-          description: Unauthorized
-          schema:
-            type: string
         '500':
           description: InternalServerError
           schema:
@@ -124,10 +116,6 @@ paths:
             $ref: '#/definitions/IRetornoDivida'
         '400':
           description: BadRequest
-          schema:
-            type: string
-        '401':
-          description: Unauthorized
           schema:
             type: string
         '500':
@@ -159,15 +147,11 @@ paths:
           description: BadRequest
           schema:
             type: string
-        '401':
-          description: Unauthorized
-          schema:
-            type: string
         '500':
           description: InternalServerError
           schema:
             type: string
-  /Evento:
+  /api/Evento:
     get:
       tags:
         - Evento
@@ -188,15 +172,11 @@ paths:
           description: Sem Evento configurado
           schema:
             type: string
-        '401':
-          description: Unauthorized
-          schema:
-            type: string
         '500':
           description: InternalServerError
           schema:
             type: string
-  /Evento/Acionamento/{Contrato}:
+  /api/Evento/Acionamento/{Contrato}:
     post:
       tags:
         - Evento
@@ -228,12 +208,166 @@ paths:
             type: object
         '204':
           description: Evento lançado com sucesso
-        '401':
-          description: Unauthorized
-          schema:
-            type: string
         '404':
           description: Evento inexistente
+        '500':
+          description: Erro geral
+  /api/Localizacao/Email/{Contrato}:
+    post:
+      tags:
+        - LocalizacaoEmail
+      summary: Lança um evento na divida
+      operationId: Localizacao_SalvarEmail
+      consumes:
+        - application/json
+        - text/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: value
+          in: body
+          description: Corpo do evento
+          required: true
+          schema:
+            $ref: '#/definitions/MdEmail'
+        - name: Contrato
+          in: path
+          description: Chave da dívida desejada
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: Email criado com sucesso
+        '400':
+          description: E-mail informado não estão em um padrão válido
+        '500':
+          description: Erro geral
+  /api/Localizacao/Telefone/TipoTelefone:
+    get:
+      tags:
+        - LocalizacaoTelefone
+      summary: Lista os Tipos de Telefones permitiros para uso da assessoria
+      operationId: Localizacao_ListaTipoTelefone
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Lista de Tipo Telefones
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/clsBase'
+        '400':
+          description: Sem tipo de telefone configurado
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Localizacao/Telefone/{Contrato}:
+    post:
+      tags:
+        - LocalizacaoTelefone
+      summary: Salva um telefone para o cliente
+      operationId: Localizacao_SalvarTelefone
+      consumes:
+        - application/json
+        - text/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: value
+          in: body
+          description: Telefone
+          required: true
+          schema:
+            $ref: '#/definitions/MdTelefone'
+        - name: Contrato
+          in: path
+          description: Chave da dívida desejada
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: Telefone criado com sucesso
+        '400':
+          description: Erro ao salvar Telefone do cliente DDD e Telefone já cadastrado para este cliente
+        '500':
+          description: Erro geral
+  /api/Localizacao/Endereco/TipoEndereco:
+    get:
+      tags:
+        - LocalizacaoEndereco
+      summary: Lista os Tipos de endereços permitiros para uso da assessoria
+      operationId: Localizacao_ListaTipoEndereco
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Lista de Tipo Endereço
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/clsBase'
+        '400':
+          description: Sem tipo de Endereço configurado
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Localizacao/Endereco/{Contrato}:
+    post:
+      tags:
+        - LocalizacaoEndereco
+      summary: Salva um endereço para o cliente
+      operationId: Localizacao_SalvarEndereco
+      consumes:
+        - application/json
+        - text/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: value
+          in: body
+          description: Telefone
+          required: true
+          schema:
+            $ref: '#/definitions/MdEndereco'
+        - name: Contrato
+          in: path
+          description: Chave da dívida desejada
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: Endereço criado com sucesso
+        '400':
+          description: UF inválida
         '500':
           description: Erro geral
   /api/Pagamento:
@@ -253,10 +387,6 @@ paths:
             $ref: '#/definitions/IRetornoPagamento'
         '400':
           description: BadRequest
-          schema:
-            type: string
-        '401':
-          description: Unauthorized
           schema:
             type: string
         '500':
@@ -288,10 +418,6 @@ paths:
           description: BadRequest
           schema:
             type: string
-        '401':
-          description: Unauthorized
-          schema:
-            type: string
         '500':
           description: InternalServerError
           schema:
@@ -313,10 +439,6 @@ paths:
             $ref: '#/definitions/IRetirada'
         '400':
           description: BadRequest
-          schema:
-            type: string
-        '401':
-          description: Unauthorized
           schema:
             type: string
         '500':
@@ -346,10 +468,6 @@ paths:
             $ref: '#/definitions/IRetirada'
         '400':
           description: BadRequest
-          schema:
-            type: string
-        '401':
-          description: Unauthorized
           schema:
             type: string
         '500':
@@ -648,6 +766,48 @@ definitions:
       NrTelefone:
         format: int64
         type: integer
+  MdEmail:
+    type: object
+    properties:
+      Email:
+        type: string
+  MdTelefone:
+    type: object
+    properties:
+      CodigoTipo:
+        format: int32
+        type: integer
+      NrDDD:
+        format: int32
+        type: integer
+      NrTelefone:
+        format: int64
+        type: integer
+  MdEndereco:
+    type: object
+    properties:
+      CodigoTipo:
+        format: int32
+        type: integer
+      TipoLogradouro:
+        type: string
+      Endereco:
+        type: string
+      Numero:
+        type: string
+      Complemento:
+        type: string
+      Bairro:
+        type: string
+      Cidade:
+        type: string
+      UF:
+        type: string
+      CEP:
+        format: int32
+        type: integer
+      PreferencialCorrespondencia:
+        type: boolean
   IRetornoPagamento:
     type: object
     properties:
