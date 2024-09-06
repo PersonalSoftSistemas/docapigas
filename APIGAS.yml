@@ -3,7 +3,7 @@ info:
   title: GAS - API de Integração com Adaptor Assessoria
   description: '[![Personal](https://s3.amazonaws.com/ps.public/images/logo_PersonalSoft_horizontal_COR-e1448044980572.png)](http://www.personalsoft.net.br)<p> Permite integração de Carga, Acordo, Pagamento, Retirada  e Eventos para Gestão de Assessoria - GAS'
   version: v1
-host:  
+host: localhost:44303
 schemes:
   - http
 paths:
@@ -252,7 +252,7 @@ paths:
     get:
       tags:
         - LocalizacaoTelefone
-      summary: Lista os Tipos de Telefones permitiros para uso da assessoria
+      summary: Lista os Tipos de Telefones permitidos para uso da assessoria
       operationId: Localizacao_ListaTipoTelefone
       consumes: []
       produces:
@@ -313,7 +313,7 @@ paths:
     get:
       tags:
         - LocalizacaoEndereco
-      summary: Lista os Tipos de endereços permitiros para uso da assessoria
+      summary: Lista os Tipos de endereços permitidos para uso da assessoria
       operationId: Localizacao_ListaTipoEndereco
       consumes: []
       produces:
