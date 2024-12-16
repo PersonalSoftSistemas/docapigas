@@ -1,1354 +1,1361 @@
-{
-  "openapi": "3.0.1",
-  "info": {
-        "title": "GAS - API de Integração com Adaptor Assessoria",
-        "description": "[![Personal](https://s3.amazonaws.com/ps.public/images/logo_PersonalSoft_horizontal_COR-e1448044980572.png)](http://www.personalsoft.net.br)<p> Permite integração de Carga, Acordo, Pagamento, Retirada  e Eventos para Gestão de Assessoria - GAS",
-        "version": "v1"
-  },
-
-  "paths": {
-    "/api/acesso/token/{modulo}/{acesso}/{senha}": {
-      "get": {
-        "tags": [
-          "Acesso"
-        ],
-        "operationId": "Acesso_Token",
-        "parameters": [
-          {
-            "name": "modulo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "acesso",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "senha",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "AccessToken",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AccessToken"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AccessToken"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "InternalServerError",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Acordo": {
-      "get": {
-        "tags": [
-          "Acordo"
-        ],
-        "operationId": "Acordo_Get",
-        "responses": {
-          "200": {
-            "description": "Acordos",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoAcordo"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoAcordo"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "InternalServerError",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Acordo/{acesso}": {
-      "get": {
-        "tags": [
-          "Acordo"
-        ],
-        "operationId": "Acordo_AcordoLogin",
-        "parameters": [
-          {
-            "name": "acesso",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Acordos",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoAcordo"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoAcordo"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "InternalServerError",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Carga": {
-      "get": {
-        "tags": [
-          "Carga"
-        ],
-        "operationId": "Carga_Get",
-        "responses": {
-          "200": {
-            "description": "Cargas",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoDivida"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoDivida"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "InternalServerError",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Carga/{acesso}": {
-      "get": {
-        "tags": [
-          "Carga"
-        ],
-        "operationId": "Carga_CargaLogin",
-        "parameters": [
-          {
-            "name": "acesso",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Cargas",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoDivida"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoDivida"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "InternalServerError",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Evento": {
-      "get": {
-        "tags": [
-          "Evento"
-        ],
-        "operationId": "Evento_ListaEventos",
-        "responses": {
-          "200": {
-            "description": "Lista de Eventos",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/clsBase"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/clsBase"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Evento inexistente",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "InternalServerError",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Evento/Acionamento/{Contrato}": {
-      "post": {
-        "tags": [
-          "Evento"
-        ],
-        "operationId": "Evento_SalvarReduzido",
-        "parameters": [
-          {
-            "name": "Contrato",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AcionamentoReduzido"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AcionamentoReduzido"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/AcionamentoReduzido"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Evento lançado com sucesso",
-            "content": {}
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Evento inexistente",
-            "content": {}
-          },
-          "500": {
-            "description": "Erro geral",
-            "content": {}
-          }
-        },
-        "x-codegen-request-body-name": "value"
-      }
-    },
-    "/api/Pagamento": {
-      "get": {
-        "tags": [
-          "Pagamento"
-        ],
-        "operationId": "Pagamento_Get",
-        "responses": {
-          "200": {
-            "description": "Pagamentos",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoPagamento"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoPagamento"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "InternalServerError",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Pagamento/{acesso}": {
-      "get": {
-        "tags": [
-          "Pagamento"
-        ],
-        "operationId": "Pagamento_PagamentoLogin",
-        "parameters": [
-          {
-            "name": "acesso",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Pagamentos",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoPagamento"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetornoPagamento"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "InternalServerError",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Retirada": {
-      "get": {
-        "tags": [
-          "Retirada"
-        ],
-        "operationId": "Retirada_Get",
-        "responses": {
-          "200": {
-            "description": "Retiradas",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetirada"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetirada"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "InternalServerError",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Retirada/{acesso}": {
-      "get": {
-        "tags": [
-          "Retirada"
-        ],
-        "operationId": "Retirada_RetiradaLogin",
-        "parameters": [
-          {
-            "name": "acesso",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Retiradas",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetirada"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IRetirada"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "InternalServerError",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "AccessToken": {
-        "type": "object",
-        "properties": {
-          "access_token": {
-            "type": "string"
-          },
-          "token_type": {
-            "type": "string"
-          },
-          "expires_in": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "refresh_token": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
-          "usermail": {
-            "type": "string"
-          }
-        }
-      },
-      "IRetornoAcordo": {
-        "type": "object",
-        "properties": {
-          "nrProtocoloAcordo": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "solicitante": {
-            "type": "string"
-          },
-          "Acordos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ItemAcordo"
-            }
-          }
-        }
-      },
-      "ItemAcordo": {
-        "type": "object",
-        "properties": {
-          "nrInscricao": {
-            "type": "string"
-          },
-          "dtNegociacao": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "dtCorrigirAte": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "cdAcionador": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sqAcordo": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "vrDescCorrecao": {
-            "type": "number",
-            "format": "double"
-          },
-          "vrDescJuros": {
-            "type": "number",
-            "format": "double"
-          },
-          "vrDescMulta": {
-            "type": "number",
-            "format": "double"
-          },
-          "vrDescPrincipal": {
-            "type": "number",
-            "format": "double"
-          },
-          "vrAcrescimos": {
-            "type": "number",
-            "format": "double"
-          },
-          "vrTotalAcordo": {
-            "type": "number",
-            "format": "double"
-          },
-          "nrParcelas": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cdAutorizacao": {
-            "type": "string"
-          },
-          "negociador": {
-            "type": "string"
-          },
-          "cdTipoAcordo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "parcelasOriginais": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IParcelaBase"
-            }
-          },
-          "parcelasAcordo": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NegociadasAcordo"
-            }
-          }
-        }
-      },
-      "IParcelaBase": {
-        "type": "object",
-        "properties": {
-          "idDivida": {
-            "type": "string"
-          },
-          "dtVencimento": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "vrParcela": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "NegociadasAcordo": {
-        "type": "object",
-        "properties": {
-          "sqParcela": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "dtVencimento": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "vrParcela": {
-            "type": "number",
-            "format": "double"
-          },
-          "vrTxBoleta": {
-            "type": "number",
-            "format": "double"
-          },
-          "vrTxDi": {
-            "type": "number",
-            "format": "double"
-          },
-          "nrNossoNumero": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "vrDespesaCobranca": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "IRetornoDivida": {
-        "type": "object",
-        "properties": {
-          "nrProtocoloCarga": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "solicitante": {
-            "type": "string"
-          },
-          "Dividas": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IDividaCarga"
-            }
-          }
-        }
-      },
-      "IDividaCarga": {
-        "type": "object",
-        "properties": {
-          "nrInscricao": {
-            "type": "string"
-          },
-          "tpPessoa": {
-            "type": "string"
-          },
-          "cdPessoaCredor": {
-            "type": "string"
-          },
-          "cdContrato": {
-            "type": "string"
-          },
-          "dtContrato": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "pcJuros": {
-            "type": "string"
-          },
-          "pcDesagio": {
-            "type": "string"
-          },
-          "cdProdutoCredor": {
-            "type": "string"
-          },
-          "cdSubProdutoCredor": {
-            "type": "string"
-          },
-          "nome": {
-            "type": "string"
-          },
-          "cdItemClassificao2": {
-            "type": "string"
-          },
-          "parcelasDivida": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IParcelaOriginal"
-            }
-          },
-          "enderecosPessoa": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Enderecos"
-            }
-          },
-          "telefonesPessoa": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Telefones"
-            }
-          },
-          "emailPessoa": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Emails"
-            }
-          }
-        }
-      },
-      "IParcelaOriginal": {
-        "type": "object",
-        "properties": {
-          "idDivida": {
-            "type": "string"
-          },
-          "nrBanco": {
-            "type": "string"
-          },
-          "nrAgencia": {
-            "type": "string"
-          },
-          "nrContaCorrente": {
-            "type": "string"
-          },
-          "nrCheque": {
-            "type": "string"
-          },
-          "dtLimiteAcordo": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "nomeLoja": {
-            "type": "string"
-          },
-          "nrFilial": {
-            "type": "string"
-          },
-          "vrOriginal": {
-            "type": "number",
-            "format": "double"
-          },
-          "nrAlinea": {
-            "type": "string"
-          },
-          "dtBaseNegociacao": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "nomeFantasia": {
-            "type": "string"
-          },
-          "chequeProtestado": {
-            "type": "string"
-          },
-          "dtVencimento": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "vrParcela": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "Enderecos": {
-        "type": "object",
-        "properties": {
-          "cdTipoEndereco": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tpLogradouro": {
-            "type": "string"
-          },
-          "nmlogradouro": {
-            "type": "string"
-          },
-          "nrEndereco": {
-            "type": "string"
-          },
-          "nmComplemento": {
-            "type": "string"
-          },
-          "nmBairro": {
-            "type": "string"
-          },
-          "cidade": {
-            "type": "string"
-          },
-          "uf": {
-            "type": "string"
-          },
-          "nrCep": {
-            "type": "string"
-          }
-        }
-      },
-      "Telefones": {
-        "type": "object",
-        "properties": {
-          "cdTipoTelefone": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nrDDD": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "NrTelefone": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "Emails": {
-        "type": "object",
-        "properties": {
-          "nmEmailPessoa": {
-            "type": "string"
-          }
-        }
-      },
-      "clsBase": {
-        "type": "object",
-        "properties": {
-          "codigo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nome": {
-            "type": "string"
-          },
-          "InDesativado": {
-            "type": "boolean"
-          }
-        }
-      },
-      "AcionamentoReduzido": {
-        "type": "object",
-        "properties": {
-          "CodigoEvento": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "DataHoraOcorrencia": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "DataHoraTermino": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "DsNotas": {
-            "type": "string"
-          },
-          "Telefones": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DiscagemReduzida"
-            }
-          }
-        }
-      },
-      "DiscagemReduzida": {
-        "type": "object",
-        "properties": {
-          "NrDDD": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "NrTelefone": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "IRetornoPagamento": {
-        "type": "object",
-        "properties": {
-          "nrProtocoloPagamento": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "solicitante": {
-            "type": "string"
-          },
-          "Pagamentos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IParcelaAcordo"
-            }
-          }
-        }
-      },
-      "IParcelaAcordo": {
-        "type": "object",
-        "properties": {
-          "sqAcordo": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "sqParcelaCredor": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "dtVencimento": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "vrParcela": {
-            "type": "number",
-            "format": "double"
-          },
-          "dtRecebimento": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "vrPagamento": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "IRetirada": {
-        "type": "object",
-        "properties": {
-          "nrProtocoloRetirada": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "solicitante": {
-            "type": "string"
-          },
-          "Retiradas": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IRetiradaParcela"
-            }
-          }
-        }
-      },
-      "IRetiradaParcela": {
-        "type": "object",
-        "properties": {
-          "idDivida": {
-            "type": "string"
-          },
-          "dtVencimento": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "vrParcela": {
-            "type": "number",
-            "format": "double"
-          },
-          "nrInscricao": {
-            "type": "string"
-          }
-        }
-      }
-    }
-  },
-  "x-original-swagger-version": "2.0"
-}
+openapi: 3.0.1
+info:
+  title: webapigestaoassessorias
+  description: "[![Personal](https://s3.amazonaws.com/ps.public/images/logo_PersonalSoft_horizontal_COR-e1448044980572.png)](http://www.personalsoft.net.br)<p>\
+    \ Permite integração de Carga, Acordo, Pagamento, Retirada  e Eventos para Gestã\
+    o de Assessoria - GAS"
+  version: v1
+servers:
+- url: /
+paths:
+  /api/acesso/token/{modulo}/{acesso}/{senha}:
+    get:
+      tags:
+      - Acesso
+      operationId: Acesso_Token
+      parameters:
+      - name: modulo
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: acesso
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: senha
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: AccessToken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Acordo:
+    get:
+      tags:
+      - Acordo
+      operationId: Acordo_Get
+      responses:
+        "200":
+          description: Acordos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoAcordo'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoAcordo'
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Acordo/{acesso}:
+    get:
+      tags:
+      - Acordo
+      operationId: Acordo_AcordoLogin
+      parameters:
+      - name: acesso
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Acordos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoAcordo'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoAcordo'
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Carga:
+    get:
+      tags:
+      - Carga
+      operationId: Carga_Get
+      responses:
+        "200":
+          description: Cargas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoDivida'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoDivida'
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Carga/{acesso}:
+    get:
+      tags:
+      - Carga
+      operationId: Carga_CargaLogin
+      parameters:
+      - name: acesso
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Cargas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoDivida'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoDivida'
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Evento:
+    get:
+      tags:
+      - Evento
+      operationId: Evento_ListaEventos
+      responses:
+        "200":
+          description: Lista de Eventos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/clsBase'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/clsBase'
+        "400":
+          description: Sem Evento configurado
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Evento/Acionamento/{Contrato}:
+    post:
+      tags:
+      - Evento
+      operationId: Evento_SalvarReduzido
+      parameters:
+      - name: Contrato
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcionamentoReduzido'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AcionamentoReduzido'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AcionamentoReduzido'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Evento lançado com sucesso
+          content: {}
+        "404":
+          description: Evento inexistente
+          content: {}
+        "500":
+          description: Erro geral
+          content: {}
+      x-codegen-request-body-name: value
+  /api/Localizacao/Email/{Contrato}:
+    post:
+      tags:
+      - LocalizacaoEmail
+      operationId: Localizacao_SalvarEmail
+      parameters:
+      - name: Contrato
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MdEmail'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MdEmail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MdEmail'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Email criado com sucesso
+          content: {}
+        "400":
+          description: E-mail informado não estão em um padrão válido
+          content: {}
+        "500":
+          description: Erro geral
+          content: {}
+      x-codegen-request-body-name: value
+  /api/Localizacao/Telefone/TipoTelefone:
+    get:
+      tags:
+      - LocalizacaoTelefone
+      operationId: Localizacao_ListaTipoTelefone
+      responses:
+        "200":
+          description: Lista de Tipo Telefones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/clsBase'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/clsBase'
+        "400":
+          description: Sem tipo de telefone configurado
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Localizacao/Telefone/{Contrato}:
+    post:
+      tags:
+      - LocalizacaoTelefone
+      operationId: Localizacao_SalvarTelefone
+      parameters:
+      - name: Contrato
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MdTelefone'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MdTelefone'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MdTelefone'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Telefone criado com sucesso
+          content: {}
+        "400":
+          description: Erro ao salvar Telefone do cliente DDD e Telefone já cadastrado
+            para este cliente
+          content: {}
+        "500":
+          description: Erro geral
+          content: {}
+      x-codegen-request-body-name: value
+  /api/Localizacao/Endereco/TipoEndereco:
+    get:
+      tags:
+      - LocalizacaoEndereco
+      operationId: Localizacao_ListaTipoEndereco
+      responses:
+        "200":
+          description: Lista de Tipo Endereço
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/clsBase'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/clsBase'
+        "400":
+          description: Sem tipo de Endereço configurado
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Localizacao/Endereco/{Contrato}:
+    post:
+      tags:
+      - LocalizacaoEndereco
+      operationId: Localizacao_SalvarEndereco
+      parameters:
+      - name: Contrato
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MdEndereco'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MdEndereco'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MdEndereco'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Endereço criado com sucesso
+          content: {}
+        "400":
+          description: UF inválida
+          content: {}
+        "500":
+          description: Erro geral
+          content: {}
+      x-codegen-request-body-name: value
+  /api/Negociacao/ObterOrigens/{Contrato}:
+    get:
+      tags:
+      - Negociacao
+      operationId: Negociacao_ObterOrigens
+      parameters:
+      - name: Contrato
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Lista das parcelas e dividas elegíveis para negociacao
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MdDividaOrigem'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MdDividaOrigem'
+        "400":
+          description: Sem Dívida não encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Negociacao/Simular:
+    post:
+      tags:
+      - Negociacao
+      operationId: Negociacao_Simular
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MdSimulacao'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MdSimulacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MdSimulacao'
+        required: true
+      responses:
+        "200":
+          description: Dados da Simulação para posteriormente formalizar um acordo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MdRetornoSimulacao'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MdRetornoSimulacao'
+        "400":
+          description: "Contrato -Número do  Contrato- está em negociação com outro\
+            \ usuário, tente novamente mais tarde"
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+      x-codegen-request-body-name: value
+  /api/Negociacao/AprovarSimulacao/{IdSimulacao}:
+    post:
+      tags:
+      - Negociacao
+      operationId: Negociacao_AprovarSimulacao
+      parameters:
+      - name: IdSimulacao
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Proposta vencida, realize nova simulação"
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Negociacao/Acordo/{ChaveNegociacao}:
+    delete:
+      tags:
+      - Negociacao
+      operationId: Negociacao_CancelarAcordo
+      parameters:
+      - name: ChaveNegociacao
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Acordo Cancelado com sucesso
+          content: {}
+        "400":
+          description: Não é permitido o cancelamento do acordo
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: Erros internos
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Negociacao/Acordo/Boleto/{ChaveNegociacao}:
+    get:
+      tags:
+      - Negociacao
+      operationId: Negociacao_Boleto
+      parameters:
+      - name: ChaveNegociacao
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Acordo Cancelado com sucesso
+          content: {}
+        "400":
+          description: Não é permitido o cancelamento do acordo
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: Erros internos
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Pagamento:
+    get:
+      tags:
+      - Pagamento
+      operationId: Pagamento_Get
+      responses:
+        "200":
+          description: Pagamentos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoPagamento'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoPagamento'
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Pagamento/{acesso}:
+    get:
+      tags:
+      - Pagamento
+      operationId: Pagamento_PagamentoLogin
+      parameters:
+      - name: acesso
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Pagamentos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoPagamento'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/IRetornoPagamento'
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Retirada:
+    get:
+      tags:
+      - Retirada
+      operationId: Retirada_Get
+      responses:
+        "200":
+          description: Retiradas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IRetirada'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/IRetirada'
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Retirada/{acesso}:
+    get:
+      tags:
+      - Retirada
+      operationId: Retirada_RetiradaLogin
+      parameters:
+      - name: acesso
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Retiradas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IRetirada'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/IRetirada'
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+components:
+  schemas:
+    AccessToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+        expires_in:
+          type: integer
+          format: int32
+        refresh_token:
+          type: string
+        username:
+          type: string
+        usermail:
+          type: string
+    IRetornoAcordo:
+      type: object
+      properties:
+        nrProtocoloAcordo:
+          type: integer
+          format: int64
+        solicitante:
+          type: string
+        Acordos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemAcordo'
+    ItemAcordo:
+      type: object
+      properties:
+        nrInscricao:
+          type: string
+        dtNegociacao:
+          type: string
+          format: date-time
+        dtCorrigirAte:
+          type: string
+          format: date-time
+        cdAcionador:
+          type: integer
+          format: int32
+        sqAcordo:
+          type: integer
+          format: int64
+        vrDescCorrecao:
+          type: number
+          format: double
+        vrDescJuros:
+          type: number
+          format: double
+        vrDescMulta:
+          type: number
+          format: double
+        vrDescPrincipal:
+          type: number
+          format: double
+        vrAcrescimos:
+          type: number
+          format: double
+        vrTotalAcordo:
+          type: number
+          format: double
+        nrParcelas:
+          type: integer
+          format: int32
+        cdAutorizacao:
+          type: string
+        negociador:
+          type: string
+        cdTipoAcordo:
+          type: integer
+          format: int32
+        parcelasOriginais:
+          type: array
+          items:
+            $ref: '#/components/schemas/IParcelaBase'
+        parcelasAcordo:
+          type: array
+          items:
+            $ref: '#/components/schemas/NegociadasAcordo'
+    IParcelaBase:
+      type: object
+      properties:
+        idDivida:
+          type: string
+        dtVencimento:
+          type: string
+          format: date-time
+        vrParcela:
+          type: number
+          format: double
+    NegociadasAcordo:
+      type: object
+      properties:
+        sqParcela:
+          type: integer
+          format: int32
+        dtVencimento:
+          type: string
+          format: date-time
+        vrParcela:
+          type: number
+          format: double
+        vrTxBoleta:
+          type: number
+          format: double
+        vrTxDi:
+          type: number
+          format: double
+        nrNossoNumero:
+          type: integer
+          format: int64
+        vrDespesaCobranca:
+          type: number
+          format: double
+    IRetornoDivida:
+      type: object
+      properties:
+        nrProtocoloCarga:
+          type: integer
+          format: int64
+        solicitante:
+          type: string
+        Dividas:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDividaCarga'
+    IDividaCarga:
+      type: object
+      properties:
+        nrInscricao:
+          type: string
+        tpPessoa:
+          type: string
+        cdPessoaCredor:
+          type: string
+        cdContrato:
+          type: string
+        dtContrato:
+          type: string
+          format: date-time
+        pcJuros:
+          type: string
+        pcDesagio:
+          type: string
+        cdProdutoCredor:
+          type: string
+        cdSubProdutoCredor:
+          type: string
+        nome:
+          type: string
+        cdItemClassificao2:
+          type: string
+        parcelasDivida:
+          type: array
+          items:
+            $ref: '#/components/schemas/IParcelaOriginal'
+        enderecosPessoa:
+          type: array
+          items:
+            $ref: '#/components/schemas/Enderecos'
+        telefonesPessoa:
+          type: array
+          items:
+            $ref: '#/components/schemas/Telefones'
+        emailPessoa:
+          type: array
+          items:
+            $ref: '#/components/schemas/Emails'
+    IParcelaOriginal:
+      type: object
+      properties:
+        idDivida:
+          type: string
+        nrBanco:
+          type: string
+        nrAgencia:
+          type: string
+        nrContaCorrente:
+          type: string
+        nrCheque:
+          type: string
+        dtLimiteAcordo:
+          type: string
+          format: date-time
+        nomeLoja:
+          type: string
+        nrFilial:
+          type: string
+        vrOriginal:
+          type: number
+          format: double
+        nrAlinea:
+          type: string
+        dtBaseNegociacao:
+          type: string
+          format: date-time
+        nomeFantasia:
+          type: string
+        chequeProtestado:
+          type: string
+        dtVencimento:
+          type: string
+          format: date-time
+        vrParcela:
+          type: number
+          format: double
+    Enderecos:
+      type: object
+      properties:
+        cdTipoEndereco:
+          type: integer
+          format: int32
+        tpLogradouro:
+          type: string
+        nmlogradouro:
+          type: string
+        nrEndereco:
+          type: string
+        nmComplemento:
+          type: string
+        nmBairro:
+          type: string
+        cidade:
+          type: string
+        uf:
+          type: string
+        nrCep:
+          type: string
+    Telefones:
+      type: object
+      properties:
+        cdTipoTelefone:
+          type: integer
+          format: int32
+        nrDDD:
+          type: integer
+          format: int64
+        NrTelefone:
+          type: integer
+          format: int64
+    Emails:
+      type: object
+      properties:
+        nmEmailPessoa:
+          type: string
+    clsBase:
+      type: object
+      properties:
+        codigo:
+          type: integer
+          format: int32
+        nome:
+          type: string
+        InDesativado:
+          type: boolean
+    AcionamentoReduzido:
+      type: object
+      properties:
+        CodigoEvento:
+          type: integer
+          format: int32
+        DataHoraOcorrencia:
+          type: string
+          format: date-time
+        DataHoraTermino:
+          type: string
+          format: date-time
+        DsNotas:
+          type: string
+        Telefones:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscagemReduzida'
+    DiscagemReduzida:
+      type: object
+      properties:
+        NrDDD:
+          type: integer
+          format: int32
+        NrTelefone:
+          type: integer
+          format: int64
+    MdEmail:
+      type: object
+      properties:
+        Email:
+          type: string
+    MdTelefone:
+      type: object
+      properties:
+        CodigoTipo:
+          type: integer
+          format: int32
+        NrDDD:
+          type: integer
+          format: int32
+        NrTelefone:
+          type: integer
+          format: int64
+    MdEndereco:
+      type: object
+      properties:
+        CodigoTipo:
+          type: integer
+          format: int32
+        TipoLogradouro:
+          type: string
+        Endereco:
+          type: string
+        Numero:
+          type: string
+        Complemento:
+          type: string
+        Bairro:
+          type: string
+        Cidade:
+          type: string
+        UF:
+          type: string
+        CEP:
+          type: integer
+          format: int32
+        PreferencialCorrespondencia:
+          type: boolean
+    MdDividaOrigem:
+      type: object
+      properties:
+        ChaveDivida:
+          type: string
+        Contrato:
+          type: string
+        Produto:
+          type: string
+        Parcelas:
+          type: array
+          items:
+            $ref: '#/components/schemas/MdPOOrigem'
+    MdPOOrigem:
+      type: object
+      properties:
+        IdParcela:
+          type: string
+          readOnly: true
+        ChavePO:
+          type: string
+        DtVencimento:
+          type: string
+          format: date-time
+        NrTitulo:
+          type: string
+        VrPrincipal:
+          type: number
+          format: double
+    MdSimulacao:
+      type: object
+      properties:
+        QtParcelas:
+          type: integer
+          format: int32
+        PrimeiraParcela:
+          $ref: '#/components/schemas/MdEntrada'
+        PcDescontoAplicado:
+          type: number
+          format: double
+        Origens:
+          type: array
+          items:
+            $ref: '#/components/schemas/MdBaseDividaOrigem'
+    MdEntrada:
+      type: object
+      properties:
+        DtEntrada:
+          type: string
+          format: date-time
+        VrEntrada:
+          type: number
+          format: double
+    MdBaseDividaOrigem:
+      type: object
+      properties:
+        ChaveDivida:
+          type: string
+        Contrato:
+          type: string
+    MdRetornoSimulacao:
+      type: object
+      properties:
+        IdSimulacao:
+          type: string
+        DtValidade:
+          type: string
+          format: date-time
+        Descontos:
+          $ref: '#/components/schemas/MdDescontos'
+        ParcelasAcordo:
+          type: array
+          items:
+            $ref: '#/components/schemas/MdParcelaAcordo'
+    MdDescontos:
+      type: object
+      properties:
+        Principal:
+          $ref: '#/components/schemas/MdBaseDescontos'
+        Juros:
+          $ref: '#/components/schemas/MdBaseDescontos'
+        Multa:
+          $ref: '#/components/schemas/MdBaseDescontos'
+        Correcao:
+          $ref: '#/components/schemas/MdBaseDescontos'
+    MdParcelaAcordo:
+      type: object
+      properties:
+        SqParcela:
+          type: integer
+          format: int32
+        DtVencimento:
+          type: string
+          format: date-time
+        VrParcela:
+          type: number
+          format: double
+        VrTAC:
+          type: number
+          format: double
+        VrMC:
+          type: number
+          format: double
+        VrAcrescimos:
+          type: number
+          format: double
+        VrAcrescimosBoleta:
+          type: number
+          format: double
+        VrAcrescimoDI:
+          type: number
+          format: double
+        VrTaxaCobranca:
+          type: number
+          format: double
+        VrTaxaCartao:
+          type: number
+          format: double
+        VrTotal:
+          type: number
+          format: double
+          readOnly: true
+    MdBaseDescontos:
+      type: object
+      properties:
+        ValorDevido:
+          type: number
+          format: double
+        ValorDesconto:
+          type: number
+          format: double
+        PercentualAplicado:
+          type: number
+          format: double
+        ValorCobrado:
+          type: number
+          format: double
+          readOnly: true
+    IRetornoPagamento:
+      type: object
+      properties:
+        nrProtocoloPagamento:
+          type: integer
+          format: int64
+        solicitante:
+          type: string
+        Pagamentos:
+          type: array
+          items:
+            $ref: '#/components/schemas/IParcelaAcordo'
+    IParcelaAcordo:
+      type: object
+      properties:
+        sqAcordo:
+          type: integer
+          format: int64
+        sqParcelaCredor:
+          type: integer
+          format: int32
+        dtVencimento:
+          type: string
+          format: date-time
+        vrParcela:
+          type: number
+          format: double
+        dtRecebimento:
+          type: string
+          format: date-time
+        vrPagamento:
+          type: number
+          format: double
+    IRetirada:
+      type: object
+      properties:
+        nrProtocoloRetirada:
+          type: integer
+          format: int64
+        solicitante:
+          type: string
+        Retiradas:
+          type: array
+          items:
+            $ref: '#/components/schemas/IRetiradaParcela'
+    IRetiradaParcela:
+      type: object
+      properties:
+        idDivida:
+          type: string
+        dtVencimento:
+          type: string
+          format: date-time
+        vrParcela:
+          type: number
+          format: double
+        nrInscricao:
+          type: string
+x-original-swagger-version: "2.0"
