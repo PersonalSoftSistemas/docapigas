@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 openapi: 3.0.1
 info:
   title: webapigestaoassessorias
@@ -7,10 +8,21 @@ info:
   version: v1
 servers:
 - url: /
+=======
+swagger: '2.0'
+info:
+  title: GAS - API de Integração com Adaptor Assessoria
+  description: '[![Personal](https://s3.amazonaws.com/ps.public/images/logo_PersonalSoft_horizontal_COR-e1448044980572.png)](http://www.personalsoft.net.br)<p> Permite integração de Carga, Acordo, Pagamento, Retirada  e Eventos para Gestão de Assessoria - GAS'
+  version: v1
+host: localhost:44303
+schemes:
+  - http
+>>>>>>> 8557ea6c0d256ec47bd5168f803fcaf3885b629b
 paths:
   /api/acesso/token/{modulo}/{acesso}/{senha}:
     get:
       tags:
+<<<<<<< HEAD
       - Acesso
       operationId: Acesso_Token
       parameters:
@@ -1359,3 +1371,861 @@ components:
         nrInscricao:
           type: string
 x-original-swagger-version: "2.0"
+=======
+        - Acesso
+      summary: Rotina para gerar o token de acesso à empresa.
+      operationId: Acesso_Token
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: modulo
+          in: path
+          description: Código que identifica um sistema da Personalsoft.
+          required: true
+          type: integer
+          format: int32
+        - name: acesso
+          in: path
+          description: Email ou nome do usuário (naUsuario).
+          required: true
+          type: string
+        - name: senha
+          in: path
+          description: Senha de acesso.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: AccessToken
+          schema:
+            $ref: '#/definitions/AccessToken'
+        '400':
+          description: BadRequest
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Acordo:
+    get:
+      tags:
+        - Acordo
+      summary: Gera lista de acordos realizado no credor para envio a assessoria para o usuário conectado.
+      operationId: Acordo_Get
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Acordos
+          schema:
+            $ref: '#/definitions/IRetornoAcordo'
+        '400':
+          description: BadRequest
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Acordo/{acesso}:
+    get:
+      tags:
+        - Acordo
+      summary: Gera lista de acordos realizado no credor para envio a assessoria para o usuário conectado.
+      operationId: Acordo_AcordoLogin
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: acesso
+          in: path
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Acordos
+          schema:
+            $ref: '#/definitions/IRetornoAcordo'
+        '400':
+          description: BadRequest
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Carga:
+    get:
+      tags:
+        - Carga
+      summary: Gera lista de dividas da assessoria para o usuário conectado.
+      operationId: Carga_Get
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Cargas
+          schema:
+            $ref: '#/definitions/IRetornoDivida'
+        '400':
+          description: BadRequest
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Carga/{acesso}:
+    get:
+      tags:
+        - Carga
+      summary: Gera lista de dividas da assessoria para o usuário conectado.
+      operationId: Carga_CargaLogin
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: acesso
+          in: path
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Cargas
+          schema:
+            $ref: '#/definitions/IRetornoDivida'
+        '400':
+          description: BadRequest
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Evento:
+    get:
+      tags:
+        - Evento
+      summary: Lista os eventos permitiros para uso da assessoria
+      operationId: Evento_ListaEventos
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Lista de Eventos
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/clsBase'
+        '400':
+          description: Sem Evento configurado
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Evento/Acionamento/{Contrato}:
+    post:
+      tags:
+        - Evento
+      summary: Lança um evento na divida
+      operationId: Evento_SalvarReduzido
+      consumes:
+        - application/json
+        - text/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: value
+          in: body
+          description: Corpo do evento
+          required: true
+          schema:
+            $ref: '#/definitions/AcionamentoReduzido'
+        - name: Contrato
+          in: path
+          description: Chave da dívida desejada
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: Evento lançado com sucesso
+        '404':
+          description: Evento inexistente
+        '500':
+          description: Erro geral
+  /api/Localizacao/Email/{Contrato}:
+    post:
+      tags:
+        - LocalizacaoEmail
+      summary: Lança um evento na divida
+      operationId: Localizacao_SalvarEmail
+      consumes:
+        - application/json
+        - text/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: value
+          in: body
+          description: Corpo do evento
+          required: true
+          schema:
+            $ref: '#/definitions/MdEmail'
+        - name: Contrato
+          in: path
+          description: Chave da dívida desejada
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: Email criado com sucesso
+        '400':
+          description: E-mail informado não estão em um padrão válido
+        '500':
+          description: Erro geral
+  /api/Localizacao/Telefone/TipoTelefone:
+    get:
+      tags:
+        - LocalizacaoTelefone
+      summary: Lista os Tipos de Telefones permitidos para uso da assessoria
+      operationId: Localizacao_ListaTipoTelefone
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Lista de Tipo Telefones
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/clsBase'
+        '400':
+          description: Sem tipo de telefone configurado
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Localizacao/Telefone/{Contrato}:
+    post:
+      tags:
+        - LocalizacaoTelefone
+      summary: Salva um telefone para o cliente
+      operationId: Localizacao_SalvarTelefone
+      consumes:
+        - application/json
+        - text/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: value
+          in: body
+          description: Telefone
+          required: true
+          schema:
+            $ref: '#/definitions/MdTelefone'
+        - name: Contrato
+          in: path
+          description: Chave da dívida desejada
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: Telefone criado com sucesso
+        '400':
+          description: Erro ao salvar Telefone do cliente DDD e Telefone já cadastrado para este cliente
+        '500':
+          description: Erro geral
+  /api/Localizacao/Endereco/TipoEndereco:
+    get:
+      tags:
+        - LocalizacaoEndereco
+      summary: Lista os Tipos de endereços permitidos para uso da assessoria
+      operationId: Localizacao_ListaTipoEndereco
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Lista de Tipo Endereço
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/clsBase'
+        '400':
+          description: Sem tipo de Endereço configurado
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Localizacao/Endereco/{Contrato}:
+    post:
+      tags:
+        - LocalizacaoEndereco
+      summary: Salva um endereço para o cliente
+      operationId: Localizacao_SalvarEndereco
+      consumes:
+        - application/json
+        - text/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: value
+          in: body
+          description: Telefone
+          required: true
+          schema:
+            $ref: '#/definitions/MdEndereco'
+        - name: Contrato
+          in: path
+          description: Chave da dívida desejada
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: Endereço criado com sucesso
+        '400':
+          description: UF inválida
+        '500':
+          description: Erro geral
+  /api/Pagamento:
+    get:
+      tags:
+        - Pagamento
+      summary: Gera lista de pagamentos realizado no credor para envio a assessoria para o usuário conectado.
+      operationId: Pagamento_Get
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Pagamentos
+          schema:
+            $ref: '#/definitions/IRetornoPagamento'
+        '400':
+          description: BadRequest
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Pagamento/{acesso}:
+    get:
+      tags:
+        - Pagamento
+      summary: Gera lista de pagamentos realizado no credor para envio a assessoria para o usuário conectado.
+      operationId: Pagamento_PagamentoLogin
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: acesso
+          in: path
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Pagamentos
+          schema:
+            $ref: '#/definitions/IRetornoPagamento'
+        '400':
+          description: BadRequest
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Retirada:
+    get:
+      tags:
+        - Retirada
+      summary: Gera lista de retiradas da assessoria para o usuário conectado.
+      operationId: Retirada_Get
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Retiradas
+          schema:
+            $ref: '#/definitions/IRetirada'
+        '400':
+          description: BadRequest
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+  /api/Retirada/{acesso}:
+    get:
+      tags:
+        - Retirada
+      summary: Gera lista de retiradas da assessoria para o usuário conectado.
+      operationId: Retirada_RetiradaLogin
+      consumes: []
+      produces:
+        - application/json
+        - text/json
+      parameters:
+        - name: acesso
+          in: path
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Retiradas
+          schema:
+            $ref: '#/definitions/IRetirada'
+        '400':
+          description: BadRequest
+          schema:
+            type: string
+        '500':
+          description: InternalServerError
+          schema:
+            type: string
+definitions:
+  AccessToken:
+    description: Objeto token retornado pela rotina de autorização.
+    type: object
+    properties:
+      access_token:
+        description: ''
+        type: string
+      token_type:
+        description: ''
+        type: string
+      expires_in:
+        format: int32
+        description: ''
+        type: integer
+      refresh_token:
+        description: ''
+        type: string
+      username:
+        description: ''
+        type: string
+      usermail:
+        description: ''
+        type: string
+  IRetornoAcordo:
+    type: object
+    properties:
+      nrProtocoloAcordo:
+        format: int64
+        type: integer
+      solicitante:
+        type: string
+      Acordos:
+        type: array
+        items:
+          $ref: '#/definitions/ItemAcordo'
+  ItemAcordo:
+    type: object
+    properties:
+      nrInscricao:
+        type: string
+      dtNegociacao:
+        format: date-time
+        type: string
+      dtCorrigirAte:
+        format: date-time
+        type: string
+      cdAcionador:
+        format: int32
+        type: integer
+      sqAcordo:
+        format: int64
+        type: integer
+      vrDescCorrecao:
+        format: double
+        type: number
+      vrDescJuros:
+        format: double
+        type: number
+      vrDescMulta:
+        format: double
+        type: number
+      vrDescPrincipal:
+        format: double
+        type: number
+      vrAcrescimos:
+        format: double
+        type: number
+      vrTotalAcordo:
+        format: double
+        type: number
+      nrParcelas:
+        format: int32
+        type: integer
+      cdAutorizacao:
+        type: string
+      negociador:
+        type: string
+      cdTipoAcordo:
+        format: int32
+        type: integer
+      parcelasOriginais:
+        type: array
+        items:
+          $ref: '#/definitions/IParcelaBase'
+      parcelasAcordo:
+        type: array
+        items:
+          $ref: '#/definitions/NegociadasAcordo'
+  IParcelaBase:
+    type: object
+    properties:
+      idDivida:
+        type: string
+      dtVencimento:
+        format: date-time
+        type: string
+      vrParcela:
+        format: double
+        type: number
+  NegociadasAcordo:
+    type: object
+    properties:
+      sqParcela:
+        format: int32
+        type: integer
+      dtVencimento:
+        format: date-time
+        type: string
+      vrParcela:
+        format: double
+        type: number
+      vrTxBoleta:
+        format: double
+        type: number
+      vrTxDi:
+        format: double
+        type: number
+      nrNossoNumero:
+        format: int64
+        type: integer
+      vrDespesaCobranca:
+        format: double
+        type: number
+  IRetornoDivida:
+    type: object
+    properties:
+      nrProtocoloCarga:
+        format: int64
+        type: integer
+      solicitante:
+        type: string
+      Dividas:
+        type: array
+        items:
+          $ref: '#/definitions/IDividaCarga'
+  IDividaCarga:
+    type: object
+    properties:
+      nrInscricao:
+        type: string
+      tpPessoa:
+        type: string
+      cdPessoaCredor:
+        type: string
+      cdContrato:
+        type: string
+      dtContrato:
+        format: date-time
+        type: string
+      pcJuros:
+        type: string
+      pcDesagio:
+        type: string
+      cdProdutoCredor:
+        type: string
+      cdSubProdutoCredor:
+        type: string
+      nome:
+        type: string
+      cdItemClassificao2:
+        type: string
+      parcelasDivida:
+        type: array
+        items:
+          $ref: '#/definitions/IParcelaOriginal'
+      enderecosPessoa:
+        type: array
+        items:
+          $ref: '#/definitions/Enderecos'
+      telefonesPessoa:
+        type: array
+        items:
+          $ref: '#/definitions/Telefones'
+      emailPessoa:
+        type: array
+        items:
+          $ref: '#/definitions/Emails'
+  IParcelaOriginal:
+    type: object
+    properties:
+      idDivida:
+        type: string
+      nrBanco:
+        type: string
+      nrAgencia:
+        type: string
+      nrContaCorrente:
+        type: string
+      nrCheque:
+        type: string
+      dtLimiteAcordo:
+        format: date-time
+        type: string
+      nomeLoja:
+        type: string
+      nrFilial:
+        type: string
+      vrOriginal:
+        format: double
+        type: number
+      nrAlinea:
+        type: string
+      dtBaseNegociacao:
+        format: date-time
+        type: string
+      nomeFantasia:
+        type: string
+      chequeProtestado:
+        type: string
+      dtVencimento:
+        format: date-time
+        type: string
+      vrParcela:
+        format: double
+        type: number
+  Enderecos:
+    type: object
+    properties:
+      cdTipoEndereco:
+        format: int32
+        type: integer
+      tpLogradouro:
+        type: string
+      nmlogradouro:
+        type: string
+      nrEndereco:
+        type: string
+      nmComplemento:
+        type: string
+      nmBairro:
+        type: string
+      cidade:
+        type: string
+      uf:
+        type: string
+      nrCep:
+        type: string
+  Telefones:
+    type: object
+    properties:
+      cdTipoTelefone:
+        format: int32
+        type: integer
+      nrDDD:
+        format: int64
+        type: integer
+      NrTelefone:
+        format: int64
+        type: integer
+  Emails:
+    type: object
+    properties:
+      nmEmailPessoa:
+        type: string
+  clsBase:
+    type: object
+    properties:
+      codigo:
+        format: int32
+        type: integer
+      nome:
+        type: string
+      InDesativado:
+        type: boolean
+  AcionamentoReduzido:
+    type: object
+    properties:
+      CodigoEvento:
+        format: int32
+        type: integer
+      DataHoraOcorrencia:
+        format: date-time
+        type: string
+      DataHoraTermino:
+        format: date-time
+        type: string
+      DsNotas:
+        type: string
+      Telefones:
+        type: array
+        items:
+          $ref: '#/definitions/DiscagemReduzida'
+  DiscagemReduzida:
+    type: object
+    properties:
+      NrDDD:
+        format: int32
+        type: integer
+      NrTelefone:
+        format: int64
+        type: integer
+  MdEmail:
+    type: object
+    properties:
+      Email:
+        type: string
+  MdTelefone:
+    type: object
+    properties:
+      CodigoTipo:
+        format: int32
+        type: integer
+      NrDDD:
+        format: int32
+        type: integer
+      NrTelefone:
+        format: int64
+        type: integer
+  MdEndereco:
+    type: object
+    properties:
+      CodigoTipo:
+        format: int32
+        type: integer
+      TipoLogradouro:
+        type: string
+      Endereco:
+        type: string
+      Numero:
+        type: string
+      Complemento:
+        type: string
+      Bairro:
+        type: string
+      Cidade:
+        type: string
+      UF:
+        type: string
+      CEP:
+        format: int32
+        type: integer
+      PreferencialCorrespondencia:
+        type: boolean
+  IRetornoPagamento:
+    type: object
+    properties:
+      nrProtocoloPagamento:
+        format: int64
+        type: integer
+      solicitante:
+        type: string
+      Pagamentos:
+        type: array
+        items:
+          $ref: '#/definitions/IParcelaAcordo'
+  IParcelaAcordo:
+    type: object
+    properties:
+      sqAcordo:
+        format: int64
+        type: integer
+      sqParcelaCredor:
+        format: int32
+        type: integer
+      dtVencimento:
+        format: date-time
+        type: string
+      vrParcela:
+        format: double
+        type: number
+      dtRecebimento:
+        format: date-time
+        type: string
+      vrPagamento:
+        format: double
+        type: number
+  IRetirada:
+    type: object
+    properties:
+      nrProtocoloRetirada:
+        format: int64
+        type: integer
+      solicitante:
+        type: string
+      Retiradas:
+        type: array
+        items:
+          $ref: '#/definitions/IRetiradaParcela'
+  IRetiradaParcela:
+    type: object
+    properties:
+      idDivida:
+        type: string
+      dtVencimento:
+        format: date-time
+        type: string
+      vrParcela:
+        format: double
+        type: number
+      nrInscricao:
+        type: string
+>>>>>>> 8557ea6c0d256ec47bd5168f803fcaf3885b629b
