@@ -6,7 +6,7 @@ info:
     o de Assessoria - GAS"
   version: v1
 servers:
-- url: http://localhost:44303/
+- url: /
 paths:
   /api/acesso/token/{modulo}/{acesso}/{senha}:
     get:
@@ -587,6 +587,18 @@ paths:
         required: true
         schema:
           type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MdAprovaAcordo'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MdAprovaAcordo'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MdAprovaAcordo'
+        required: true
       responses:
         "200":
           description: Acordo Aprovado
@@ -615,6 +627,7 @@ paths:
             text/json:
               schema:
                 type: string
+      x-codegen-request-body-name: value
   /api/Negociacao/Acordo/{ChaveNegociacao}:
     delete:
       tags:
@@ -657,7 +670,7 @@ paths:
             text/json:
               schema:
                 type: string
-  /api/Negociacao/Acordo/Boleto/{ChaveNegociacao}:
+  /api/Negociacao/Acordo/Boleto/{ChaveNegociacao}/{Parcela}:
     get:
       tags:
       - Negociacao
@@ -668,6 +681,12 @@ paths:
         required: true
         schema:
           type: string
+      - name: Parcela
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         "200":
           description: Boleto Emitido com sucesso
@@ -1306,16 +1325,25 @@ components:
           type: number
           format: double
           readOnly: true
+    MdAprovaAcordo:
+      type: object
+      properties:
+        LoginNegociador:
+          type: string
     MdRetonoAcordo:
       type: object
       properties:
+        ChaveNegociacao:
+          type: string
+          readOnly: true
+        SqAcordo:
+          type: string
+        Negociador:
+          type: string
         PN:
           type: array
           items:
             $ref: '#/components/schemas/MdParcelaAcordo'
-        ChaveNegociacao:
-          type: string
-          readOnly: true
     MdRetornoBoletoAssessoria:
       type: object
       properties:
