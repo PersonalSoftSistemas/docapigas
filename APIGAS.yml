@@ -1,12 +1,12 @@
-openapi: 3.0.3
+openapi: 3.0.1
 
 info:
   title: webapigestaoassessorias
   version: v3
   description: >-
-      [![Personal](https://s3.amazonaws.com/ps.public/images/logo_PersonalSoft_horizontal_COR-e1448044980572.png)](http://www.personalsoft.net.br)<p>\
-      \ Permite integração de Carga, Acordo, Pagamento, Retirada  e Eventos para Gestã\
-      o de Assessoria - GAS
+    [![Personal](https://s3.amazonaws.com/ps.public/images/logo_PersonalSoft_horizontal_COR-e1448044980572.png)](http://www.personalsoft.net.br)<p>\
+     Permite integração de Carga, Acordo, Pagamento, Retirada e Eventos para Gestão
+     de Assessoria - GAS
 
 servers:
   - url: http://localhost:44303
@@ -21,15 +21,19 @@ paths:
         - name: modulo
           in: path
           required: true
-          schema: { type: integer, format: int32 }
+          schema:
+            type: integer
+            format: int32
         - name: acesso
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
         - name: senha
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
         '200':
           description: AccessToken
@@ -37,8 +41,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccessToken'
-        '400': { description: BadRequest }
-        '500': { description: InternalServerError }
+        '400':
+          description: BadRequest
+        '500':
+          description: InternalServerError
 
   /api/Acordo:
     get:
@@ -60,7 +66,8 @@ paths:
         - name: acesso
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
         '200':
           description: Acordos
@@ -89,7 +96,8 @@ paths:
         - name: acesso
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
         '200':
           description: Cargas
@@ -120,7 +128,8 @@ paths:
         - name: Contrato
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -128,9 +137,12 @@ paths:
             schema:
               $ref: '#/components/schemas/AcionamentoReduzido'
       responses:
-        '204': { description: Evento lançado com sucesso }
-        '404': { description: Evento inexistente }
-        '500': { description: Erro geral }
+        '204':
+          description: Evento lançado com sucesso
+        '404':
+          description: Evento inexistente
+        '500':
+          description: Erro geral
 
   /api/Localizacao/Email/{Contrato}:
     post:
@@ -140,7 +152,8 @@ paths:
         - name: Contrato
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -148,9 +161,12 @@ paths:
             schema:
               $ref: '#/components/schemas/MdEmail'
       responses:
-        '204': { description: Email criado com sucesso }
-        '400': { description: E-mail inválido }
-        '500': { description: Erro geral }
+        '204':
+          description: Email criado com sucesso
+        '400':
+          description: E-mail inválido
+        '500':
+          description: Erro geral
 
   /api/Localizacao/Telefone/TipoTelefone:
     get:
@@ -174,7 +190,8 @@ paths:
         - name: Contrato
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -182,9 +199,12 @@ paths:
             schema:
               $ref: '#/components/schemas/MdTelefone'
       responses:
-        '204': { description: Telefone criado com sucesso }
-        '400': { description: Telefone já existente }
-        '500': { description: Erro geral }
+        '204':
+          description: Telefone criado com sucesso
+        '400':
+          description: Telefone já existente
+        '500':
+          description: Erro geral
 
   /api/Localizacao/Endereco/TipoEndereco:
     get:
@@ -208,7 +228,8 @@ paths:
         - name: Contrato
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -216,9 +237,12 @@ paths:
             schema:
               $ref: '#/components/schemas/MdEndereco'
       responses:
-        '204': { description: Endereço criado com sucesso }
-        '400': { description: UF inválida }
-        '500': { description: Erro geral }
+        '204':
+          description: Endereço criado com sucesso
+        '400':
+          description: UF inválida
+        '500':
+          description: Erro geral
 
   /api/Negociacao/TiposAcordo/{ChaveDivida}:
     get:
@@ -228,7 +252,8 @@ paths:
         - name: ChaveDivida
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
         '200':
           description: Tipos de acordo elegíveis
@@ -247,7 +272,8 @@ paths:
         - name: Contrato
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
         '200':
           description: Origens elegíveis
@@ -284,7 +310,8 @@ paths:
         - name: IdSimulacao
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -307,9 +334,11 @@ paths:
         - name: ChaveNegociacao
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
-        '204': { description: Acordo cancelado }
+        '204':
+          description: Acordo cancelado
 
   /api/Negociacao/Acordo/Boleto/{ChaveNegociacao}/{Parcela}:
     get:
@@ -319,11 +348,14 @@ paths:
         - name: ChaveNegociacao
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
         - name: Parcela
           in: path
           required: true
-          schema: { type: integer, format: int32 }
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
           description: Boleto
@@ -340,7 +372,8 @@ paths:
         - name: SqAcordo
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
         '200':
           description: Status do acordo
@@ -369,7 +402,8 @@ paths:
         - name: acesso
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
         '200':
           description: Pagamentos
@@ -398,7 +432,8 @@ paths:
         - name: acesso
           in: path
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
         '200':
           description: Retiradas
