@@ -1,24 +1,322 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Swagger UI</title>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@3.52.5/swagger-ui.css">
-</head>
-<body>
-  <div id="swagger-ui"></div>
-  <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@3.52.5/swagger-ui-bundle.js"></script>
-  <script>
-    window.onload = function() {
-      SwaggerUIBundle({
-        url: "https://personalsoftsistemas.github.io/APIGAS/APIAutoAtendimento.json",
-        dom_id: '#swagger-ui',
-        deepLinking: true,
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIBundle.SwaggerUIStandalonePreset
-        ]
-      });
-    };
-  </script>
-</body>
-</html>
+openapi: 3.0.1
+
+info:
+  title: webapigestaoassessorias
+  version: v3
+  description: >
+    API de integração para Gestão de Assessoria – GAS.
+    Contempla Carga, Acordo, Negociação, Pagamento, Retirada e Eventos.
+
+servers:
+  - url: https://api.exemplo.com
+
+tags:
+  - name: Acesso
+  - name: Acordo
+  - name: Carga
+  - name: Evento
+  - name: Localizacao
+  - name: Negociacao
+  - name: Pagamento
+  - name: Retirada
+
+paths:
+
+  /api/acesso/token/{modulo}/{acesso}/{senha}:
+    get:
+      summary: Geração de token de acesso
+      tags: [Acesso]
+      parameters:
+        - name: modulo
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: acesso
+          in: path
+          required: true
+          schema: { type: string }
+        - name: senha
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Token gerado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AccessToken' }
+
+  /api/Acordo:
+    get:
+      summary: Listar acordos
+      tags: [Acordo]
+      responses:
+        '200':
+          description: Lista de acordos
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IRetornoAcordo' }
+
+  /api/Acordo/{acesso}:
+    get:
+      summary: Listar acordos por acesso
+      tags: [Acordo]
+      parameters:
+        - name: acesso
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Lista de acordos
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IRetornoAcordo' }
+
+  /api/Carga:
+    get:
+      summary: Consultar cargas
+      tags: [Carga]
+      responses:
+        '200':
+          description: Cargas
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IRetornoDivida' }
+
+  /api/Carga/{acesso}:
+    get:
+      summary: Consultar cargas por acesso
+      tags: [Carga]
+      parameters:
+        - name: acesso
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Cargas
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IRetornoDivida' }
+
+  /api/Evento:
+    get:
+      summary: Listar eventos
+      tags: [Evento]
+      responses:
+        '200':
+          description: Eventos
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/clsBase' }
+
+  /api/Evento/Acionamento/{Contrato}:
+    post:
+      summary: Lançar evento na dívida
+      tags: [Evento]
+      parameters:
+        - name: Contrato
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AcionamentoReduzido' }
+      responses:
+        '204':
+          description: Evento lançado
+
+  /api/Negociacao/TiposAcordo/{ChaveDivida}:
+    get:
+      summary: Tipos de acordo elegíveis
+      tags: [Negociacao]
+      parameters:
+        - name: ChaveDivida
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Tipos de acordo
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/clsBase' }
+
+  /api/Negociacao/ObterOrigens/{Contrato}:
+    get:
+      summary: Origens da dívida
+      tags: [Negociacao]
+      parameters:
+        - name: Contrato
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Origens
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/MdDividaOrigem' }
+
+  /api/Negociacao/Simular:
+    post:
+      summary: Simular negociação
+      tags: [Negociacao]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MdSimulacao' }
+      responses:
+        '200':
+          description: Resultado da simulação
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MdRetornoSimulacao' }
+
+  /api/Negociacao/AprovarSimulacao/{IdSimulacao}:
+    post:
+      summary: Aprovar simulação
+      tags: [Negociacao]
+      parameters:
+        - name: IdSimulacao
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MdAprovaAcordo' }
+      responses:
+        '200':
+          description: Acordo aprovado
+
+  /api/Negociacao/Acordo/{ChaveNegociacao}:
+    delete:
+      summary: Cancelar acordo
+      tags: [Negociacao]
+      parameters:
+        - name: ChaveNegociacao
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: Acordo cancelado
+
+  /api/Negociacao/Acordo/Boleto/{ChaveNegociacao}/{Parcela}:
+    get:
+      summary: Emitir boleto
+      tags: [Negociacao]
+      parameters:
+        - name: ChaveNegociacao
+          in: path
+          required: true
+          schema: { type: string }
+        - name: Parcela
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Boleto gerado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MdRetornoBoletoAssessoria' }
+
+  /api/Negociacao/Acordo/status/{SqAcordo}:
+    get:
+      summary: Status do acordo
+      tags: [Negociacao]
+      parameters:
+        - name: SqAcordo
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Status
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MdDadosAcordo' }
+
+  /api/Pagamento:
+    get:
+      summary: Listar pagamentos
+      tags: [Pagamento]
+      responses:
+        '200':
+          description: Pagamentos
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IRetornoPagamento' }
+
+  /api/Retirada:
+    get:
+      summary: Listar retiradas
+      tags: [Retirada]
+      responses:
+        '200':
+          description: Retiradas
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IRetirada' }
+
+components:
+  schemas:
+
+    AccessToken:
+      type: object
+      properties:
+        access_token: { type: string }
+        token_type: { type: string }
+        expires_in: { type: integer }
+
+    IRetornoAcordo:
+      type: object
+
+    IRetornoDivida:
+      type: object
+
+    IRetornoPagamento:
+      type: object
+
+    IRetirada:
+      type: object
+
+    clsBase:
+      type: object
+      properties:
+        codigo: { type: integer }
+        nome: { type: string }
+
+    AcionamentoReduzido:
+      type: object
+
+    MdDividaOrigem:
+      type: object
+
+    MdSimulacao:
+      type: object
+
+    MdRetornoSimulacao:
+      type: object
+
+    MdAprovaAcordo:
+      type: object
+
+    MdRetornoBoletoAssessoria:
+      type: object
+
+    MdDadosAcordo:
+      type: object
