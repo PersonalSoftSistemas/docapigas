@@ -4,9 +4,9 @@ info:
   title: webapigestaoassessorias
   version: v3
   description: >-
-    [![Personal](https://s3.amazonaws.com/ps.public/images/logo_PersonalSoft_horizontal_COR-e1448044980572.png)](http://www.personalsoft.net.br)<p>\
-     Permite integração de Carga, Acordo, Pagamento, Retirada e Eventos para Gestão
-     de Assessoria - GAS
+    [![Personal](https://s3.amazonaws.com/ps.public/images/logo_PersonalSoft_horizontal_COR-e1448044980572.png)](http://www.personalsoft.net.br)<p>
+    Permite integração de Carga, Acordo, Pagamento, Retirada e Eventos para Gestão
+    de Assessoria - GAS
 
 servers:
   - url: http://localhost:44303
@@ -15,25 +15,22 @@ paths:
 
   /api/acesso/token/{modulo}/{acesso}/{senha}:
     get:
+      summary: Geração de token de acesso
       tags: [Acesso]
       operationId: Acesso_Token
       parameters:
         - name: modulo
           in: path
           required: true
-          schema:
-            type: integer
-            format: int32
+          schema: { type: integer, format: int32 }
         - name: acesso
           in: path
           required: true
-          schema:
-            type: string
+          schema: { type: string }
         - name: senha
           in: path
           required: true
-          schema:
-            type: string
+          schema: { type: string }
       responses:
         '200':
           description: AccessToken
@@ -41,13 +38,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccessToken'
-        '400':
-          description: BadRequest
-        '500':
-          description: InternalServerError
 
   /api/Acordo:
     get:
+      summary: Consulta acordos
       tags: [Acordo]
       operationId: Acordo_Get
       responses:
@@ -60,14 +54,14 @@ paths:
 
   /api/Acordo/{acesso}:
     get:
+      summary: Consulta acordos por acesso
       tags: [Acordo]
       operationId: Acordo_AcordoLogin
       parameters:
         - name: acesso
           in: path
           required: true
-          schema:
-            type: string
+          schema: { type: string }
       responses:
         '200':
           description: Acordos
@@ -78,6 +72,7 @@ paths:
 
   /api/Carga:
     get:
+      summary: Consulta cargas
       tags: [Carga]
       operationId: Carga_Get
       responses:
@@ -90,14 +85,14 @@ paths:
 
   /api/Carga/{acesso}:
     get:
+      summary: Consulta cargas por acesso
       tags: [Carga]
       operationId: Carga_CargaLogin
       parameters:
         - name: acesso
           in: path
           required: true
-          schema:
-            type: string
+          schema: { type: string }
       responses:
         '200':
           description: Cargas
@@ -108,11 +103,12 @@ paths:
 
   /api/Evento:
     get:
+      summary: Lista eventos disponíveis
       tags: [Evento]
       operationId: Evento_ListaEventos
       responses:
         '200':
-          description: Lista de Eventos
+          description: Lista de eventos
           content:
             application/json:
               schema:
@@ -122,14 +118,14 @@ paths:
 
   /api/Evento/Acionamento/{Contrato}:
     post:
+      summary: Lançar evento na dívida
       tags: [Evento]
       operationId: Evento_SalvarReduzido
       parameters:
         - name: Contrato
           in: path
           required: true
-          schema:
-            type: string
+          schema: { type: string }
       requestBody:
         required: true
         content:
@@ -139,251 +135,10 @@ paths:
       responses:
         '204':
           description: Evento lançado com sucesso
-        '404':
-          description: Evento inexistente
-        '500':
-          description: Erro geral
-
-  /api/Localizacao/Email/{Contrato}:
-    post:
-      tags: [LocalizacaoEmail]
-      operationId: Localizacao_SalvarEmail
-      parameters:
-        - name: Contrato
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MdEmail'
-      responses:
-        '204':
-          description: Email criado com sucesso
-        '400':
-          description: E-mail inválido
-        '500':
-          description: Erro geral
-
-  /api/Localizacao/Telefone/TipoTelefone:
-    get:
-      tags: [LocalizacaoTelefone]
-      operationId: Localizacao_ListaTipoTelefone
-      responses:
-        '200':
-          description: Lista Tipo Telefone
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/clsBase'
-
-  /api/Localizacao/Telefone/{Contrato}:
-    post:
-      tags: [LocalizacaoTelefone]
-      operationId: Localizacao_SalvarTelefone
-      parameters:
-        - name: Contrato
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MdTelefone'
-      responses:
-        '204':
-          description: Telefone criado com sucesso
-        '400':
-          description: Telefone já existente
-        '500':
-          description: Erro geral
-
-  /api/Localizacao/Endereco/TipoEndereco:
-    get:
-      tags: [LocalizacaoEndereco]
-      operationId: Localizacao_ListaTipoEndereco
-      responses:
-        '200':
-          description: Lista Tipo Endereço
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/clsBase'
-
-  /api/Localizacao/Endereco/{Contrato}:
-    post:
-      tags: [LocalizacaoEndereco]
-      operationId: Localizacao_SalvarEndereco
-      parameters:
-        - name: Contrato
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MdEndereco'
-      responses:
-        '204':
-          description: Endereço criado com sucesso
-        '400':
-          description: UF inválida
-        '500':
-          description: Erro geral
-
-  /api/Negociacao/TiposAcordo/{ChaveDivida}:
-    get:
-      tags: [Negociacao]
-      operationId: Negociacao_TiposAcordo
-      parameters:
-        - name: ChaveDivida
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Tipos de acordo elegíveis
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/clsBase'
-
-  /api/Negociacao/ObterOrigens/{Contrato}:
-    get:
-      tags: [Negociacao]
-      operationId: Negociacao_ObterOrigens
-      parameters:
-        - name: Contrato
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Origens elegíveis
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MdDividaOrigem'
-
-  /api/Negociacao/Simular:
-    post:
-      tags: [Negociacao]
-      operationId: Negociacao_Simular
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MdSimulacao'
-      responses:
-        '200':
-          description: Simulação
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MdRetornoSimulacao'
-
-  /api/Negociacao/AprovarSimulacao/{IdSimulacao}:
-    post:
-      tags: [Negociacao]
-      operationId: Negociacao_AprovarSimulacao
-      parameters:
-        - name: IdSimulacao
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MdAprovaAcordo'
-      responses:
-        '200':
-          description: Acordo aprovado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MdRetonoAcordo'
-
-  /api/Negociacao/Acordo/{ChaveNegociacao}:
-    delete:
-      tags: [Negociacao]
-      operationId: Negociacao_CancelarAcordo
-      parameters:
-        - name: ChaveNegociacao
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Acordo cancelado
-
-  /api/Negociacao/Acordo/Boleto/{ChaveNegociacao}/{Parcela}:
-    get:
-      tags: [Negociacao]
-      operationId: Negociacao_Boleto
-      parameters:
-        - name: ChaveNegociacao
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: Parcela
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Boleto
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MdRetornoBoletoAssessoria'
-
-  /api/Negociacao/Acordo/status/{SqAcordo}:
-    get:
-      tags: [Negociacao]
-      operationId: Negociacao_status
-      parameters:
-        - name: SqAcordo
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Status do acordo
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MdDadosAcordo'
 
   /api/Pagamento:
     get:
+      summary: Consulta pagamentos
       tags: [Pagamento]
       operationId: Pagamento_Get
       responses:
@@ -394,26 +149,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/IRetornoPagamento'
 
-  /api/Pagamento/{acesso}:
-    get:
-      tags: [Pagamento]
-      operationId: Pagamento_PagamentoLogin
-      parameters:
-        - name: acesso
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Pagamentos
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IRetornoPagamento'
-
   /api/Retirada:
     get:
+      summary: Consulta retiradas
       tags: [Retirada]
       operationId: Retirada_Get
       responses:
@@ -424,20 +162,97 @@ paths:
               schema:
                 $ref: '#/components/schemas/IRetirada'
 
-  /api/Retirada/{acesso}:
-    get:
-      tags: [Retirada]
-      operationId: Retirada_RetiradaLogin
-      parameters:
-        - name: acesso
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Retiradas
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IRetirada'
+components:
+  schemas:
+
+    AccessToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+        expires_in:
+          type: integer
+          format: int32
+        refresh_token:
+          type: string
+        username:
+          type: string
+        usermail:
+          type: string
+
+    IRetornoAcordo:
+      type: object
+      properties:
+        nrProtocoloAcordo:
+          type: integer
+          format: int64
+        solicitante:
+          type: string
+        Acordos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemAcordo'
+
+    ItemAcordo:
+      type: object
+      properties:
+        chaveNegociacao:
+          type: string
+        nrInscricao:
+          type: string
+        dtNegociacao:
+          type: string
+          format: date-time
+        vrTotalAcordo:
+          type: number
+          format: double
+
+    IRetornoDivida:
+      type: object
+      properties:
+        nrProtocoloCarga:
+          type: integer
+          format: int64
+        solicitante:
+          type: string
+
+    IRetornoPagamento:
+      type: object
+      properties:
+        nrProtocoloPagamento:
+          type: integer
+          format: int64
+        solicitante:
+          type: string
+
+    IRetirada:
+      type: object
+      properties:
+        nrProtocoloRetirada:
+          type: integer
+          format: int64
+        solicitante:
+          type: string
+
+    clsBase:
+      type: object
+      properties:
+        codigo:
+          type: integer
+        nome:
+          type: string
+        InDesativado:
+          type: boolean
+
+    AcionamentoReduzido:
+      type: object
+      properties:
+        CodigoEvento:
+          type: integer
+        DataHoraOcorrencia:
+          type: string
+          format: date-time
+        DsNotas:
+          type: string
