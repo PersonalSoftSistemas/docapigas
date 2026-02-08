@@ -1,0 +1,7 @@
+extends:
+  - recommended
+
+rules:
+  no-unresolved-refs: off
+  operation-summary: off
+  security-defined: off
