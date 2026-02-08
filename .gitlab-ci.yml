@@ -3,7 +3,7 @@ image: node:latest
 pages:
   script:
     - npm install -g @redocly/cli
-    - npx @redocly/cli lint APIGAS.yml
+    - npx @redocly/cli lint APIGAS.yml --config .redocly.yaml
     - npx @redocly/cli build-docs APIGAS.yml -o public/index.html
   artifacts:
     paths:
