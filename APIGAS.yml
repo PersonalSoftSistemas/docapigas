@@ -689,98 +689,355 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IComplemento'
-  IParcelaOriginal:
-    type: object
-    description: Parcela original da dívida enviada na carga
-    properties:
-      idDivida:
-        type: string
-        example: DIV-001
+    IParcelaOriginal:
+      type: object
+      description: Parcela original da dívida enviada na carga
+      properties:
+        idDivida:
+          type: string
+          example: DIV-001
 
-      nrBanco:
-        type: string
-        example: '341'
+        nrBanco:
+          type: string
+          example: '341'
 
-      nrAgencia:
-        type: string
-        example: '1234'
+        nrAgencia:
+          type: string
+          example: '1234'
 
-      nrContaCorrente:
-        type: string
-        example: '56789-0'
+        nrContaCorrente:
+          type: string
+          example: '56789-0'
 
-      nrCheque:
-        type: string
-        example: '000123'
+        nrCheque:
+          type: string
+          example: '000123'
 
-      dtLimiteAcordo:
-        type: string
-        format: date-time
-        example: '2026-01-31T23:59:59'
+        dtLimiteAcordo:
+          type: string
+          format: date-time
+          example: '2026-01-31T23:59:59'
 
-      nomeLoja:
-        type: string
-        example: Loja Centro
+        nomeLoja:
+          type: string
+          example: Loja Centro
 
-      nrFilial:
-        type: string
-        example: '01'
+        nrFilial:
+          type: string
+          example: '01'
 
-      vrOriginal:
-        type: number
-        format: double
-        example: 500.00
+        vrOriginal:
+          type: number
+          format: double
+          example: 500.00
 
-      nrAlinea:
-        type: string
-        example: '11'
+        nrAlinea:
+          type: string
+          example: '11'
 
-      dtBaseNegociacao:
-        type: string
-        format: date-time
-        example: '2025-12-01T00:00:00'
+        dtBaseNegociacao:
+          type: string
+          format: date-time
+          example: '2025-12-01T00:00:00'
 
-      nomeFantasia:
-        type: string
-        example: Loja XPTO
+        nomeFantasia:
+          type: string
+          example: Loja XPTO
 
-      chequeProtestado:
-        type: string
-        description: Indica se o cheque foi protestado (S/N)
-        example: N
+        chequeProtestado:
+          type: string
+          description: Indica se o cheque foi protestado (S/N)
+          example: N
 
-      dadosComplementares:
-        type: array
-        description: Informações complementares da parcela
-        items:
-          $ref: '#/components/schemas/IComplemento'
+        dadosComplementares:
+          type: array
+          description: Informações complementares da parcela
+          items:
+            $ref: '#/components/schemas/IComplemento'
 
-      dtVencimento:
-        type: string
-        format: date-time
-        example: '2025-11-10T00:00:00'
+        dtVencimento:
+          type: string
+          format: date-time
+          example: '2025-11-10T00:00:00'
 
-      vrParcela:
-        type: number
-        format: double
-        example: 350.75
-  IComplemento:
-  type: object
-  description: >
-    Informação complementar associada à dívida ou parcela.
-    Usado para transportar metadados adicionais enviados pelo credor.
-  properties:
-    Nome:
-      type: string
-      description: Nome do complemento
-      example: CanalOrigem
+        vrParcela:
+          type: number
+          format: double
+          example: 350.75
+    IComplemento:
+      type: object
+      description: >
+        Informação complementar associada à dívida ou parcela.
+        Usado para transportar metadados adicionais enviados pelo credor.
+      properties:
+        Nome:
+          type: string
+          description: Nome do complemento
+          example: CanalOrigem
 
-    Codigo:
-      type: integer
-      description: Código identificador do complemento
-      example: 10
+        Codigo:
+          type: integer
+          description: Código identificador do complemento
+          example: 10
 
-    Valor:
-      type: string
-      description: Valor associado ao complemento
-      example: Digital
+        Valor:
+          type: string
+          description: Valor associado ao complemento
+          example: Digital
+    Enderecos:
+      type: object
+      description: Endereço associado à pessoa vinculada à dívida
+      properties:
+        cdTipoEndereco:
+          type: integer
+          description: Código do tipo de endereço
+          example: 1
+
+        tpLogradouro:
+          type: string
+          description: Tipo de logradouro
+          example: Rua
+
+        nmlogradouro:
+          type: string
+          description: Nome do logradouro
+          example: das Flores
+
+        nrEndereco:
+          type: string
+          description: Número do endereço
+          example: '123'
+
+        nmComplemento:
+          type: string
+          description: Complemento do endereço
+          example: Apto 45
+
+        nmBairro:
+          type: string
+          description: Bairro
+          example: Centro
+
+        cidade:
+          type: string
+          description: Cidade
+          example: São Paulo
+
+        uf:
+          type: string
+          description: Unidade federativa (UF)
+          example: SP
+
+        nrCep:
+          type: string
+          description: CEP
+          example: '01001000'
+    Telefones:
+      type: object
+      description: Telefone associado à pessoa vinculada à dívida
+      properties:
+        cdTipoTelefone:
+          type: integer
+          description: Código do tipo de telefone
+          example: 1
+
+        nrDDD:
+          type: integer
+          description: DDD do telefone
+          example: 11
+
+        NrTelefone:
+          type: integer
+          description: Número do telefone
+          example: 988776655
+    Emails:
+      type: object
+      description: Email associado à pessoa vinculada à dívida
+      properties:
+        nmEmailPessoa:
+          type: string
+          format: email
+          description: Endereço de e-mail
+          example: cliente@email.com
+    AcionamentoReduzido:
+      type: object
+      description: >
+        Estrutura reduzida para lançamento de evento (acionamento) na dívida.
+        Utilizada por integrações externas para registrar contatos, tentativas
+        ou ocorrências sem necessidade de payload completo.
+      required:
+        - cdEvento
+        - dtEvento
+      properties:
+        cdEvento:
+          type: integer
+          description: Código do evento a ser lançado
+          example: 101
+
+        dtEvento:
+          type: string
+          format: date-time
+          description: Data e hora em que o evento ocorreu
+          example: '2026-02-08T14:35:00-03:00'
+
+        observacao:
+          type: string
+          description: Observação livre associada ao evento
+          example: Cliente não atendeu a ligação
+
+        usuario:
+          type: string
+          description: Usuário ou sistema responsável pelo lançamento do evento
+          example: BOT_WHATSAPP
+
+        origem:
+          type: string
+          description: Origem do acionamento
+          example: AutoAtendimento
+
+        dadosComplementares:
+          type: array
+          description: Informações complementares do evento
+          items:
+            $ref: '#/components/schemas/IComplemento'
+    IRetornoPagamento:
+      type: object
+      description: Retorno de pagamentos realizados para as dívidas
+      properties:
+        nrProtocoloPagamento:
+          type: integer
+          format: int64
+          description: Número de protocolo do envio de pagamentos
+          example: 987654321
+
+        solicitante:
+          type: string
+          description: Sistema ou usuário solicitante
+          example: sistema_externo
+
+        Pagamentos:
+          type: array
+          description: Lista de pagamentos realizados
+          items:
+            $ref: '#/components/schemas/IPagamento'
+    IPagamento:
+      type: object
+      description: Pagamento realizado para uma parcela ou acordo
+      properties:
+        cdContrato:
+          type: string
+          description: Código do contrato no credor
+          example: 'CTR-001122'
+
+        nrInscricao:
+          type: string
+          description: CPF ou CNPJ do devedor
+          example: '12345678901'
+
+        sqAcordo:
+          type: string
+          description: Identificador do acordo (quando aplicável)
+          example: AC-998877
+
+        nrParcela:
+          type: integer
+          description: Número da parcela paga
+          example: 1
+
+        dtPagamento:
+          type: string
+          format: date-time
+          description: Data e hora do pagamento
+          example: '2026-02-05T10:15:00-03:00'
+
+        vrPagamento:
+          type: number
+          format: double
+          description: Valor efetivamente pago
+          example: 350.75
+
+        formaPagamento:
+          type: string
+          description: Forma de pagamento utilizada
+          example: BOLETO
+
+        nrDocumento:
+          type: string
+          description: Número do documento de pagamento (linha digitável, NSU, etc.)
+          example: '34191.79001 01043.510047 91020.150008 7 88970000035075'
+
+        bancoRecebedor:
+          type: string
+          description: Banco recebedor do pagamento
+          example: '341'
+
+        dadosComplementares:
+          type: array
+          description: Informações complementares do pagamento
+          items:
+            $ref: '#/components/schemas/IComplemento'
+    IRetirada:
+      type: object
+      description: Retorno das retiradas (baixas de parcelas ou contratos)
+      properties:
+        nrProtocoloRetirada:
+          type: integer
+          format: int64
+          description: Número de protocolo do envio de retiradas
+          example: 456789123
+
+        solicitante:
+          type: string
+          description: Sistema ou usuário solicitante
+          example: sistema_externo
+
+        Retiradas:
+          type: array
+          description: Lista de retiradas realizadas
+          items:
+            $ref: '#/components/schemas/IRetiradaItem'
+    IRetiradaItem:
+      type: object
+      description: Retirada (baixa) realizada em uma dívida ou parcela
+      properties:
+        cdContrato:
+          type: string
+          description: Código do contrato no credor
+          example: 'CTR-001122'
+
+        nrInscricao:
+          type: string
+          description: CPF ou CNPJ do devedor
+          example: '12345678901'
+
+        sqAcordo:
+          type: string
+          description: Identificador do acordo relacionado (quando aplicável)
+          example: AC-778899
+
+        nrParcela:
+          type: integer
+          description: Número da parcela retirada (quando aplicável)
+          example: 1
+
+        dtRetirada:
+          type: string
+          format: date-time
+          description: Data e hora da retirada
+          example: '2026-02-06T09:20:00-03:00'
+
+        motivoRetirada:
+          type: string
+          description: Motivo da retirada
+          example: ACORDO_CANCELADO
+
+        usuario:
+          type: string
+          description: Usuário ou sistema responsável pela retirada
+          example: SISTEMA_GAS
+
+        dadosComplementares:
+          type: array
+          description: Informações complementares da retirada
+          items:
+            $ref: '#/components/schemas/IComplemento'
