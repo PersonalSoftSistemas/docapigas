@@ -3,13 +3,22 @@ openapi: 3.0.1
 info:
   title: webapigestaoassessorias
   version: v3
-  description: >-
-    [![Personal](https://s3.amazonaws.com/ps.public/images/logo_PersonalSoft_horizontal_COR-e1448044980572.png)](http://www.personalsoft.net.br)<p>
-    Permite integração de Carga, Acordo, Pagamento, Retirada e Eventos para Gestão
-    de Assessoria - GAS
+  description: >
+    API de integração para Gestão de Assessoria – GAS.
+    Contempla Carga, Acordo, Negociação, Pagamento, Retirada e Eventos.
 
 servers:
-  - url: http://localhost:44303
+  - url: https://api.exemplo.com
+
+tags:
+  - name: Acesso
+  - name: Acordo
+  - name: Carga
+  - name: Evento
+  - name: Localizacao
+  - name: Negociacao
+  - name: Pagamento
+  - name: Retirada
 
 paths:
 
@@ -17,12 +26,11 @@ paths:
     get:
       summary: Geração de token de acesso
       tags: [Acesso]
-      operationId: Acesso_Token
       parameters:
         - name: modulo
           in: path
           required: true
-          schema: { type: integer, format: int32 }
+          schema: { type: integer }
         - name: acesso
           in: path
           required: true
@@ -33,30 +41,26 @@ paths:
           schema: { type: string }
       responses:
         '200':
-          description: AccessToken
+          description: Token gerado
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/AccessToken'
+              schema: { $ref: '#/components/schemas/AccessToken' }
 
   /api/Acordo:
     get:
-      summary: Consulta acordos
+      summary: Listar acordos
       tags: [Acordo]
-      operationId: Acordo_Get
       responses:
         '200':
-          description: Acordos
+          description: Lista de acordos
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/IRetornoAcordo'
+              schema: { $ref: '#/components/schemas/IRetornoAcordo' }
 
   /api/Acordo/{acesso}:
     get:
-      summary: Consulta acordos por acesso
+      summary: Listar acordos por acesso
       tags: [Acordo]
-      operationId: Acordo_AcordoLogin
       parameters:
         - name: acesso
           in: path
@@ -64,30 +68,26 @@ paths:
           schema: { type: string }
       responses:
         '200':
-          description: Acordos
+          description: Lista de acordos
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/IRetornoAcordo'
+              schema: { $ref: '#/components/schemas/IRetornoAcordo' }
 
   /api/Carga:
     get:
-      summary: Consulta cargas
+      summary: Consultar cargas
       tags: [Carga]
-      operationId: Carga_Get
       responses:
         '200':
           description: Cargas
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/IRetornoDivida'
+              schema: { $ref: '#/components/schemas/IRetornoDivida' }
 
   /api/Carga/{acesso}:
     get:
-      summary: Consulta cargas por acesso
+      summary: Consultar cargas por acesso
       tags: [Carga]
-      operationId: Carga_CargaLogin
       parameters:
         - name: acesso
           in: path
@@ -98,29 +98,25 @@ paths:
           description: Cargas
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/IRetornoDivida'
+              schema: { $ref: '#/components/schemas/IRetornoDivida' }
 
   /api/Evento:
     get:
-      summary: Lista eventos disponíveis
+      summary: Listar eventos
       tags: [Evento]
-      operationId: Evento_ListaEventos
       responses:
         '200':
-          description: Lista de eventos
+          description: Eventos
           content:
             application/json:
               schema:
                 type: array
-                items:
-                  $ref: '#/components/schemas/clsBase'
+                items: { $ref: '#/components/schemas/clsBase' }
 
   /api/Evento/Acionamento/{Contrato}:
     post:
       summary: Lançar evento na dívida
       tags: [Evento]
-      operationId: Evento_SalvarReduzido
       parameters:
         - name: Contrato
           in: path
@@ -130,37 +126,151 @@ paths:
         required: true
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/AcionamentoReduzido'
+            schema: { $ref: '#/components/schemas/AcionamentoReduzido' }
       responses:
         '204':
-          description: Evento lançado com sucesso
+          description: Evento lançado
+
+  /api/Negociacao/TiposAcordo/{ChaveDivida}:
+    get:
+      summary: Tipos de acordo elegíveis
+      tags: [Negociacao]
+      parameters:
+        - name: ChaveDivida
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Tipos de acordo
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/clsBase' }
+
+  /api/Negociacao/ObterOrigens/{Contrato}:
+    get:
+      summary: Origens da dívida
+      tags: [Negociacao]
+      parameters:
+        - name: Contrato
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Origens
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/MdDividaOrigem' }
+
+  /api/Negociacao/Simular:
+    post:
+      summary: Simular negociação
+      tags: [Negociacao]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MdSimulacao' }
+      responses:
+        '200':
+          description: Resultado da simulação
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MdRetornoSimulacao' }
+
+  /api/Negociacao/AprovarSimulacao/{IdSimulacao}:
+    post:
+      summary: Aprovar simulação
+      tags: [Negociacao]
+      parameters:
+        - name: IdSimulacao
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MdAprovaAcordo' }
+      responses:
+        '200':
+          description: Acordo aprovado
+
+  /api/Negociacao/Acordo/{ChaveNegociacao}:
+    delete:
+      summary: Cancelar acordo
+      tags: [Negociacao]
+      parameters:
+        - name: ChaveNegociacao
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: Acordo cancelado
+
+  /api/Negociacao/Acordo/Boleto/{ChaveNegociacao}/{Parcela}:
+    get:
+      summary: Emitir boleto
+      tags: [Negociacao]
+      parameters:
+        - name: ChaveNegociacao
+          in: path
+          required: true
+          schema: { type: string }
+        - name: Parcela
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Boleto gerado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MdRetornoBoletoAssessoria' }
+
+  /api/Negociacao/Acordo/status/{SqAcordo}:
+    get:
+      summary: Status do acordo
+      tags: [Negociacao]
+      parameters:
+        - name: SqAcordo
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Status
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MdDadosAcordo' }
 
   /api/Pagamento:
     get:
-      summary: Consulta pagamentos
+      summary: Listar pagamentos
       tags: [Pagamento]
-      operationId: Pagamento_Get
       responses:
         '200':
           description: Pagamentos
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/IRetornoPagamento'
+              schema: { $ref: '#/components/schemas/IRetornoPagamento' }
 
   /api/Retirada:
     get:
-      summary: Consulta retiradas
+      summary: Listar retiradas
       tags: [Retirada]
-      operationId: Retirada_Get
       responses:
         '200':
           description: Retiradas
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/IRetirada'
+              schema: { $ref: '#/components/schemas/IRetirada' }
 
 components:
   schemas:
@@ -168,91 +278,45 @@ components:
     AccessToken:
       type: object
       properties:
-        access_token:
-          type: string
-        token_type:
-          type: string
-        expires_in:
-          type: integer
-          format: int32
-        refresh_token:
-          type: string
-        username:
-          type: string
-        usermail:
-          type: string
+        access_token: { type: string }
+        token_type: { type: string }
+        expires_in: { type: integer }
 
     IRetornoAcordo:
       type: object
-      properties:
-        nrProtocoloAcordo:
-          type: integer
-          format: int64
-        solicitante:
-          type: string
-        Acordos:
-          type: array
-          items:
-            $ref: '#/components/schemas/ItemAcordo'
-
-    ItemAcordo:
-      type: object
-      properties:
-        chaveNegociacao:
-          type: string
-        nrInscricao:
-          type: string
-        dtNegociacao:
-          type: string
-          format: date-time
-        vrTotalAcordo:
-          type: number
-          format: double
 
     IRetornoDivida:
       type: object
-      properties:
-        nrProtocoloCarga:
-          type: integer
-          format: int64
-        solicitante:
-          type: string
 
     IRetornoPagamento:
       type: object
-      properties:
-        nrProtocoloPagamento:
-          type: integer
-          format: int64
-        solicitante:
-          type: string
 
     IRetirada:
       type: object
-      properties:
-        nrProtocoloRetirada:
-          type: integer
-          format: int64
-        solicitante:
-          type: string
 
     clsBase:
       type: object
       properties:
-        codigo:
-          type: integer
-        nome:
-          type: string
-        InDesativado:
-          type: boolean
+        codigo: { type: integer }
+        nome: { type: string }
 
     AcionamentoReduzido:
       type: object
-      properties:
-        CodigoEvento:
-          type: integer
-        DataHoraOcorrencia:
-          type: string
-          format: date-time
-        DsNotas:
-          type: string
+
+    MdDividaOrigem:
+      type: object
+
+    MdSimulacao:
+      type: object
+
+    MdRetornoSimulacao:
+      type: object
+
+    MdAprovaAcordo:
+      type: object
+
+    MdRetornoBoletoAssessoria:
+      type: object
+
+    MdDadosAcordo:
+      type: object
