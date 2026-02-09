@@ -281,236 +281,340 @@ components:
         access_token: { type: string }
         token_type: { type: string }
         expires_in: { type: integer }
-
-    IRetornoAcordo:
+    MdDividaOrigem:
       type: object
-
-    IRetornoDivida:
+      properties:
+        ChaveDivida:
+          type: string
+          example: DIV-123456
+        Contrato:
+          type: string
+          example: CTR-998877
+        Produto:
+          type: string
+          example: Cartão de Crédito
+        Parcelas:
+          type: array
+          items:
+            $ref: '#/components/schemas/MdPOOrigem'
+    MdPOOrigem:
       type: object
-
-    IRetornoPagamento:
+      properties:
+        IdParcela:
+          type: string
+          example: PARC-1
+        ChavePO:
+          type: string
+          example: PO-98765
+        DtVencimento:
+          type: string
+          format: date-time
+          example: '2025-12-10T00:00:00'
+        NrTitulo:
+          type: string
+          example: TIT-445566
+        VrPrincipal:
+          type: number
+          format: double
+          example: 350.75
+    MdSimulacao:
       type: object
-
-    IRetirada:
+      required:
+        - QtParcelas
+        - TipoAcordo
+        - DtPrimeiroVencimento
+        - Origens
+      properties:
+        QtParcelas:
+          type: integer
+          example: 3
+        TipoAcordo:
+          type: integer
+          example: 1
+        DtPrimeiroVencimento:
+          type: string
+          format: date-time
+          example: '2026-01-10T00:00:00'
+        PrimeiraParcela:
+          $ref: '#/components/schemas/MdEntrada'
+        PcDescontoAplicado:
+          type: number
+          format: double
+          example: 20.0
+        Origens:
+          type: array
+          items:
+            $ref: '#/components/schemas/MdBaseDividaOrigem'
+    MdEntrada:
       type: object
-
+      properties:
+        DtEntrada:
+          type: string
+          format: date-time
+          example: '2025-12-05T00:00:00'
+        VrEntrada:
+          type: number
+          format: double
+          example: 150.00
+    MdBaseDividaOrigem:
+      type: object
+      properties:
+        ChaveDivida:
+          type: string
+          example: DIV-123456
+        Contrato:
+          type: string
+          example: CTR-998877
+    MdRetornoSimulacao:
+      type: object
+      properties:
+        IdSimulacao:
+          type: string
+          example: SIM-000123
+        DtValidade:
+          type: string
+          format: date-time
+          example: '2026-01-31T23:59:59'
+        Descontos:
+          $ref: '#/components/schemas/MdDescontos'
+        ParcelasAcordo:
+          type: array
+          items:
+            $ref: '#/components/schemas/MdParcelaAcordo'
+    MdDescontos:
+      type: object
+      properties:
+        Principal:
+          $ref: '#/components/schemas/MdBaseDescontos'
+        Juros:
+          $ref: '#/components/schemas/MdBaseDescontos'
+        Multa:
+          $ref: '#/components/schemas/MdBaseDescontos'
+        Correcao:
+          $ref: '#/components/schemas/MdBaseDescontos'
+    MdBaseDescontos:
+      type: object
+      properties:
+        ValorDevido:
+          type: number
+          format: double
+          example: 500.00
+        ValorDesconto:
+          type: number
+          format: double
+          example: 100.00
+        PercentualAplicado:
+          type: number
+          format: double
+          example: 20.0
+        ValorCobrado:
+          type: number
+          format: double
+          example: 400.00
+    MdParcelaAcordo:
+      type: object
+      properties:
+        SqParcela:
+          type: integer
+          example: 1
+        DtVencimento:
+          type: string
+          format: date-time
+          example: '2026-01-10T00:00:00'
+        VrParcela:
+          type: number
+          format: double
+          example: 180.00
+        VrAcrescimos:
+          type: number
+          format: double
+          example: 5.50
+        VrTotal:
+          type: number
+          format: double
+          example: 185.50
+    MdAprovaAcordo:
+      type: object
+      required:
+        - LoginNegociador
+      properties:
+        LoginNegociador:
+          type: string
+          example: operador01
+    MdRetornoBoletoAssessoria:
+      type: object
+      properties:
+        SqParcelaCredor:
+          type: integer
+          example: 12345
+        LinhaDigitavel:
+          type: string
+          example: 34191.79001 01043.510047 91020.150008 1 88940000018550
+        CodigoBarras:
+          type: string
+          example: 3419188940000018550
+        DtVencimento:
+          type: string
+          format: date-time
+          example: '2026-01-10T00:00:00'
+        VlBoleta:
+          type: number
+          format: double
+          example: 185.50
+    MdDadosAcordo:
+      type: object
+      properties:
+        ChaveNegociacao:
+          type: string
+          example: NEG-998877
+        SqAcordo:
+          type: string
+          example: 556677
+        Negociador:
+          type: string
+          example: operador01
+        StatusAcordo:
+          type: integer
+          enum: [0, 1, 2]
+          example: 1
+        StatusAcordoDescricao:
+          type: string
+          example: Ativo
     clsBase:
       type: object
       properties:
-        codigo: { type: integer }
-        nome: { type: string }
-
-    AcionamentoReduzido:
+        codigo:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: À Vista
+        InDesativado:
+          type: boolean
+          example: false
+    IRetornoAcordo:
       type: object
-
-  MdDividaOrigem:
-    type: object
-    properties:
-      ChaveDivida:
-        type: string
-        example: DIV-123456
-      Contrato:
-        type: string
-        example: CTR-998877
-      Produto:
-        type: string
-        example: Cartão de Crédito
-      Parcelas:
-        type: array
-        items:
-          $ref: '#/components/schemas/MdPOOrigem'
-  MdPOOrigem:
-    type: object
-    properties:
-      IdParcela:
-        type: string
-        example: PARC-1
-      ChavePO:
-        type: string
-        example: PO-98765
-      DtVencimento:
-        type: string
-        format: date-time
-        example: '2025-12-10T00:00:00'
-      NrTitulo:
-        type: string
-        example: TIT-445566
-      VrPrincipal:
-        type: number
-        format: double
-        example: 350.75
-  MdSimulacao:
-    type: object
-    required:
-      - QtParcelas
-      - TipoAcordo
-      - DtPrimeiroVencimento
-      - Origens
-    properties:
-      QtParcelas:
-        type: integer
-        example: 3
-      TipoAcordo:
-        type: integer
-        example: 1
-      DtPrimeiroVencimento:
-        type: string
-        format: date-time
-        example: '2026-01-10T00:00:00'
-      PrimeiraParcela:
-        $ref: '#/components/schemas/MdEntrada'
-      PcDescontoAplicado:
-        type: number
-        format: double
-        example: 20.0
-      Origens:
-        type: array
-        items:
-          $ref: '#/components/schemas/MdBaseDividaOrigem'
-  MdEntrada:
-    type: object
-    properties:
-      DtEntrada:
-        type: string
-        format: date-time
-        example: '2025-12-05T00:00:00'
-      VrEntrada:
-        type: number
-        format: double
-        example: 150.00
-  MdBaseDividaOrigem:
-    type: object
-    properties:
-      ChaveDivida:
-        type: string
-        example: DIV-123456
-      Contrato:
-        type: string
-        example: CTR-998877
-  MdRetornoSimulacao:
-    type: object
-    properties:
-      IdSimulacao:
-        type: string
-        example: SIM-000123
-      DtValidade:
-        type: string
-        format: date-time
-        example: '2026-01-31T23:59:59'
-      Descontos:
-        $ref: '#/components/schemas/MdDescontos'
-      ParcelasAcordo:
-        type: array
-        items:
-          $ref: '#/components/schemas/MdParcelaAcordo'
-  MdDescontos:
-    type: object
-    properties:
-      Principal:
-        $ref: '#/components/schemas/MdBaseDescontos'
-      Juros:
-        $ref: '#/components/schemas/MdBaseDescontos'
-      Multa:
-        $ref: '#/components/schemas/MdBaseDescontos'
-      Correcao:
-        $ref: '#/components/schemas/MdBaseDescontos'
-  MdBaseDescontos:
-    type: object
-    properties:
-      ValorDevido:
-        type: number
-        format: double
-        example: 500.00
-      ValorDesconto:
-        type: number
-        format: double
-        example: 100.00
-      PercentualAplicado:
-        type: number
-        format: double
-        example: 20.0
-      ValorCobrado:
-        type: number
-        format: double
-        example: 400.00
-  MdParcelaAcordo:
-    type: object
-    properties:
-      SqParcela:
-        type: integer
-        example: 1
-      DtVencimento:
-        type: string
-        format: date-time
-        example: '2026-01-10T00:00:00'
-      VrParcela:
-        type: number
-        format: double
-        example: 180.00
-      VrAcrescimos:
-        type: number
-        format: double
-        example: 5.50
-      VrTotal:
-        type: number
-        format: double
-        example: 185.50
-  MdAprovaAcordo:
-    type: object
-    required:
-      - LoginNegociador
-    properties:
-      LoginNegociador:
-        type: string
-        example: operador01
-  MdRetornoBoletoAssessoria:
-    type: object
-    properties:
-      SqParcelaCredor:
-        type: integer
-        example: 12345
-      LinhaDigitavel:
-        type: string
-        example: 34191.79001 01043.510047 91020.150008 1 88940000018550
-      CodigoBarras:
-        type: string
-        example: 3419188940000018550
-      DtVencimento:
-        type: string
-        format: date-time
-        example: '2026-01-10T00:00:00'
-      VlBoleta:
-        type: number
-        format: double
-        example: 185.50
-  MdDadosAcordo:
-    type: object
-    properties:
-      ChaveNegociacao:
-        type: string
-        example: NEG-998877
-      SqAcordo:
-        type: string
-        example: 556677
-      Negociador:
-        type: string
-        example: operador01
-      StatusAcordo:
-        type: integer
-        enum: [0, 1, 2]
-        example: 1
-      StatusAcordoDescricao:
-        type: string
-        example: Ativo
-  clsBase:
-    type: object
-    properties:
-      codigo:
-        type: integer
-        example: 1
-      nome:
-        type: string
-        example: À Vista
-      InDesativado:
-        type: boolean
-        example: false
+      properties:
+        nrProtocoloAcordo:
+          type: integer
+          format: int64
+          example: 987654321
+        solicitante:
+          type: string
+          example: sistema_externo
+        Acordos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemAcordo'
+    ItemAcordo:
+      type: object
+      properties:
+        chaveNegociacao:
+          type: string
+          example: NEG-123456
+        nrInscricao:
+          type: string
+          example: 12345678901
+        dtNegociacao:
+          type: string
+          format: date-time
+          example: '2026-01-05T14:32:10'
+        dtCorrigirAte:
+          type: string
+          format: date-time
+          example: '2026-01-31T23:59:59'
+        cdAcionador:
+          type: integer
+          example: 45
+        sqAcordo:
+          type: integer
+          format: int64
+          example: 556677
+        vrDescCorrecao:
+          type: number
+          format: double
+          example: 15.50
+        vrDescJuros:
+          type: number
+          format: double
+          example: 20.00
+        vrDescMulta:
+          type: number
+          format: double
+          example: 10.00
+        vrDescPrincipal:
+          type: number
+          format: double
+          example: 100.00
+        vrAcrescimos:
+          type: number
+          format: double
+          example: 5.00
+        vrTotalAcordo:
+          type: number
+          format: double
+          example: 350.75
+        nrParcelas:
+          type: integer
+          example: 3
+        cdAutorizacao:
+          type: string
+          example: AUT-9988
+        negociador:
+          type: string
+          example: operador01
+        cdTipoAcordo:
+          type: integer
+          example: 1
+        parcelasOriginais:
+          type: array
+          items:
+            $ref: '#/components/schemas/IParcelaBase'
+        parcelasAcordo:
+          type: array
+          items:
+            $ref: '#/components/schemas/NegociadasAcordo'
+    IParcelaBase:
+      type: object
+      properties:
+        idDivida:
+          type: string
+          example: DIV-001
+        dtVencimento:
+          type: string
+          format: date-time
+          example: '2025-11-10T00:00:00'
+        vrParcela:
+          type: number
+          format: double
+          example: 200.00
+    NegociadasAcordo:
+      type: object
+      properties:
+        sqParcela:
+          type: integer
+          example: 1
+        dtVencimento:
+          type: string
+          format: date-time
+          example: '2026-01-10T00:00:00'
+        vrParcela:
+          type: number
+          format: double
+          example: 180.00
+        vrTxBoleta:
+          type: number
+          format: double
+          example: 2.50
+        vrTxDi:
+          type: number
+          format: double
+          example: 1.20
+        nrNossoNumero:
+          type: integer
+          format: int64
+          example: 9876543210
+        vrDespesaCobranca:
+          type: number
+          format: double
+          example: 3.00
