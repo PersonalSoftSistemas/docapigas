@@ -689,3 +689,98 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IComplemento'
+  IParcelaOriginal:
+    type: object
+    description: Parcela original da dívida enviada na carga
+    properties:
+      idDivida:
+        type: string
+        example: DIV-001
+
+      nrBanco:
+        type: string
+        example: '341'
+
+      nrAgencia:
+        type: string
+        example: '1234'
+
+      nrContaCorrente:
+        type: string
+        example: '56789-0'
+
+      nrCheque:
+        type: string
+        example: '000123'
+
+      dtLimiteAcordo:
+        type: string
+        format: date-time
+        example: '2026-01-31T23:59:59'
+
+      nomeLoja:
+        type: string
+        example: Loja Centro
+
+      nrFilial:
+        type: string
+        example: '01'
+
+      vrOriginal:
+        type: number
+        format: double
+        example: 500.00
+
+      nrAlinea:
+        type: string
+        example: '11'
+
+      dtBaseNegociacao:
+        type: string
+        format: date-time
+        example: '2025-12-01T00:00:00'
+
+      nomeFantasia:
+        type: string
+        example: Loja XPTO
+
+      chequeProtestado:
+        type: string
+        description: Indica se o cheque foi protestado (S/N)
+        example: N
+
+      dadosComplementares:
+        type: array
+        description: Informações complementares da parcela
+        items:
+          $ref: '#/components/schemas/IComplemento'
+
+      dtVencimento:
+        type: string
+        format: date-time
+        example: '2025-11-10T00:00:00'
+
+      vrParcela:
+        type: number
+        format: double
+        example: 350.75
+  IComplemento:
+  type: object
+  description: >
+    Informação complementar associada à dívida ou parcela.
+    Usado para transportar metadados adicionais enviados pelo credor.
+  properties:
+    Nome:
+      type: string
+      description: Nome do complemento
+      example: CanalOrigem
+
+    Codigo:
+      type: integer
+      description: Código identificador do complemento
+      example: 10
+
+    Valor:
+      type: string
+      description: Valor associado ao complemento
+      example: Digital
