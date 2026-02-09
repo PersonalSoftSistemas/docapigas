@@ -618,3 +618,74 @@ components:
           type: number
           format: double
           example: 3.00
+    IRetornoDivida:
+      type: object
+      properties:
+        nrProtocoloCarga:
+          type: integer
+          format: int64
+          example: 123456789
+        solicitante:
+          type: string
+          example: sistema_externo
+        Dividas:
+          type: array
+          items:
+            $ref: '#/components/schemas/IDividaCarga'
+    IDividaCarga:
+      type: object
+      properties:
+        nrInscricao:
+          type: string
+          example: '12345678901'
+        tpPessoa:
+          type: string
+          example: F
+        cdPessoaCredor:
+          type: string
+          example: '998877'
+        cdContrato:
+          type: string
+          example: 'CTR-001122'
+        dtContrato:
+          type: string
+          format: date-time
+          example: '2020-01-10T00:00:00'
+        pcJuros:
+          type: string
+          example: '2.5'
+        pcDesagio:
+          type: string
+          example: '10'
+        cdProdutoCredor:
+          type: string
+          example: 'CC'
+        cdSubProdutoCredor:
+          type: string
+          example: 'CC01'
+        nome:
+          type: string
+          example: João da Silva
+        cdItemClassificao2:
+          type: string
+          example: CL01
+        parcelasDivida:
+          type: array
+          items:
+            $ref: '#/components/schemas/IParcelaOriginal'
+        enderecosPessoa:
+          type: array
+          items:
+            $ref: '#/components/schemas/Enderecos'
+        telefonesPessoa:
+          type: array
+          items:
+            $ref: '#/components/schemas/Telefones'
+        emailPessoa:
+          type: array
+          items:
+            $ref: '#/components/schemas/Emails'
+        dadosComplementares:
+          type: array
+          items:
+            $ref: '#/components/schemas/IComplemento'
