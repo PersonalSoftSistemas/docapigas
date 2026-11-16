@@ -1,1043 +1,1984 @@
-openapi: 3.0.1
-
+openapi: 3.0.0
 info:
+  version: v1
   title: webapigestaoassessorias
-  version: v3
-  description: >
-    API de integração para Gestão de Assessoria – GAS.
-    Contempla Carga, Acordo, Negociação, Pagamento, Retirada e Eventos.
-
-servers:
-  - url: https://api.exemplo.com
-
-tags:
-  - name: Acesso
-  - name: Acordo
-  - name: Carga
-  - name: Evento
-  - name: Localizacao
-  - name: Negociacao
-  - name: Pagamento
-  - name: Retirada
-
+  description: API de integração para Gestão de Assessoria – GAS. Contempla Carga,
+    Acordo, Negociação, Contato, Localização, Pagamento, Retirada e Eventos.
 paths:
-
-  /api/acesso/token/{modulo}/{acesso}/{senha}:
+  "/api/acesso/token/{modulo}/{acesso}/{senha}":
     get:
+      tags:
+        - Acesso
       summary: Geração de token de acesso
-      tags: [Acesso]
+      description: Rotina para gerar o token de acesso à empresa.
+      operationId: Acesso_Token
       parameters:
         - name: modulo
           in: path
+          description: Código que identifica um sistema da Personalsoft.
           required: true
-          schema: { type: integer }
+          schema:
+            type: integer
+            format: int32
         - name: acesso
           in: path
+          description: Email ou nome do usuário (naUsuario).
           required: true
-          schema: { type: string }
+          schema:
+            type: string
         - name: senha
           in: path
+          description: Senha de acesso.
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
-        '200':
-          description: Token gerado
+        "200":
+          description: AccessToken
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/AccessToken' }
-
+              schema:
+                $ref: "#/components/schemas/AccessToken"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/AccessToken"
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
   /api/Acordo:
     get:
+      tags:
+        - Acordo
       summary: Listar acordos
-      tags: [Acordo]
+      description: Gera lista de acordos realizados no credor para envio à assessoria
+        do usuário conectado.
+      operationId: Acordo_Get
       responses:
-        '200':
-          description: Lista de acordos
+        "200":
+          description: Acordos
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/IRetornoAcordo' }
-
-  /api/Acordo/{acesso}:
+              schema:
+                $ref: "#/components/schemas/IRetornoAcordo"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/IRetornoAcordo"
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Acordo/{acesso}":
     get:
+      tags:
+        - Acordo
       summary: Listar acordos por acesso
-      tags: [Acordo]
+      description: Gera lista de acordos realizados no credor para envio à assessoria
+        do usuário conectado.
+      operationId: Acordo_AcordoLogin
       parameters:
         - name: acesso
           in: path
+          description: Login do usuário; deve ser o mesmo do token.
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
-        '200':
-          description: Lista de acordos
+        "200":
+          description: Acordos
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/IRetornoAcordo' }
-
+              schema:
+                $ref: "#/components/schemas/IRetornoAcordo"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/IRetornoAcordo"
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
   /api/Carga:
     get:
+      tags:
+        - Carga
       summary: Consultar cargas
-      tags: [Carga]
+      description: Gera lista de dívidas da assessoria para o usuário conectado.
+      operationId: Carga_Get
       responses:
-        '200':
+        "200":
           description: Cargas
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/IRetornoDivida' }
-
-  /api/Carga/{acesso}:
+              schema:
+                $ref: "#/components/schemas/IRetornoDivida"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/IRetornoDivida"
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Carga/{acesso}":
     get:
+      tags:
+        - Carga
       summary: Consultar cargas por acesso
-      tags: [Carga]
+      description: Gera lista de dívidas da assessoria para o usuário conectado.
+      operationId: Carga_CargaLogin
       parameters:
         - name: acesso
           in: path
+          description: Login do usuário; deve ser o mesmo do token.
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
-        '200':
+        "200":
           description: Cargas
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/IRetornoDivida' }
-
-  /api/Evento:
+              schema:
+                $ref: "#/components/schemas/IRetornoDivida"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/IRetornoDivida"
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Contato/Telefones/{inscricao}":
     get:
-      summary: Listar eventos
-      tags: [Evento]
+      tags:
+        - Contato
+      summary: Listar telefones do devedor
+      description: "Lista os telefones do CPF/CNPJ da carteira da assessoria, com a
+        situação de cada um no Adaptor: 1 - Validado, 2 - Falta validar, 3 -
+        Negativado."
+      operationId: Contato_Telefones
+      parameters:
+        - name: inscricao
+          in: path
+          description: CPF ou CNPJ, com ou sem máscara
+          required: true
+          schema:
+            type: string
       responses:
-        '200':
-          description: Eventos
+        "200":
+          description: Telefones do CPF/CNPJ
           content:
             application/json:
               schema:
                 type: array
-                items: { $ref: '#/components/schemas/clsBase' }
-
-  /api/Evento/Acionamento/{Contrato}:
+                items:
+                  $ref: "#/components/schemas/MdTelefoneAssessoria"
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MdTelefoneAssessoria"
+        "400":
+          description: "Inscrição inválida: informe o CPF ou o CNPJ com números"
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: Erros internos
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Contato/Enderecos/{inscricao}":
+    get:
+      tags:
+        - Contato
+      summary: Listar endereços do devedor
+      description: "Lista os endereços do CPF/CNPJ da carteira da assessoria, com a
+        situação de cada um no Adaptor: 1 - Validado, 2 - Falta validar, 3 -
+        Negativado."
+      operationId: Contato_Enderecos
+      parameters:
+        - name: inscricao
+          in: path
+          description: CPF ou CNPJ, com ou sem máscara
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Endereços do CPF/CNPJ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MdEnderecoAssessoria"
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MdEnderecoAssessoria"
+        "400":
+          description: "Inscrição inválida: informe o CPF ou o CNPJ com números"
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: Erros internos
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Contato/Emails/{inscricao}":
+    get:
+      tags:
+        - Contato
+      summary: Listar e-mails do devedor
+      description: "Lista os e-mails do CPF/CNPJ da carteira da assessoria, com a
+        situação de cada um no Adaptor: 1 - Validado, 2 - Falta validar, 3 -
+        Negativado."
+      operationId: Contato_Emails
+      parameters:
+        - name: inscricao
+          in: path
+          description: CPF ou CNPJ, com ou sem máscara
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: E-mails do CPF/CNPJ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MdEmailAssessoria"
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MdEmailAssessoria"
+        "400":
+          description: "Inscrição inválida: informe o CPF ou o CNPJ com números"
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: Erros internos
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Evento:
+    get:
+      tags:
+        - Evento
+      summary: Listar eventos
+      description: Lista os eventos permitidos para uso da assessoria.
+      operationId: Evento_ListaEventos
+      responses:
+        "200":
+          description: Lista de Eventos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/clsBase"
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/clsBase"
+        "400":
+          description: Sem Evento configurado
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Evento/Acionamento/{Contrato}":
     post:
+      tags:
+        - Evento
       summary: Lançar evento na dívida
-      tags: [Evento]
+      description: Registra um acionamento (evento) na dívida do contrato informado.
+      operationId: Evento_SalvarReduzido
       parameters:
         - name: Contrato
           in: path
+          description: Chave da dívida desejada
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       requestBody:
-        required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/AcionamentoReduzido' }
+            schema:
+              $ref: "#/components/schemas/AcionamentoReduzido"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/AcionamentoReduzido"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/AcionamentoReduzido"
+        description: Corpo do evento
+        required: true
       responses:
-        '204':
-          description: Evento lançado
-
-  /api/Negociacao/TiposAcordo/{ChaveDivida}:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Evento lançado com sucesso
+        "404":
+          description: Evento inexistente
+        "500":
+          description: Erro geral
+  "/api/Localizacao/Email/{Contrato}":
+    post:
+      tags:
+        - LocalizacaoEmail
+      summary: Cadastrar e-mail do cliente
+      description: Salva um e-mail para o cliente do contrato informado.
+      operationId: Localizacao_SalvarEmail
+      parameters:
+        - name: Contrato
+          in: path
+          description: Chave da dívida desejada
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MdEmail"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/MdEmail"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MdEmail"
+        description: E-mail
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Email criado com sucesso
+        "400":
+          description: E-mail informado não estão em um padrão válido
+        "500":
+          description: Erro geral
+  /api/Localizacao/Telefone/TipoTelefone:
     get:
+      tags:
+        - LocalizacaoTelefone
+      summary: Tipos de telefone
+      description: Lista os tipos de telefone permitidos para uso da assessoria.
+      operationId: Localizacao_ListaTipoTelefone
+      responses:
+        "200":
+          description: Lista de Tipo Telefones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/clsBase"
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/clsBase"
+        "400":
+          description: Sem tipo de telefone configurado
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Localizacao/Telefone/{Contrato}":
+    post:
+      tags:
+        - LocalizacaoTelefone
+      summary: Cadastrar telefone do cliente
+      description: Salva um telefone para o cliente do contrato informado.
+      operationId: Localizacao_SalvarTelefone
+      parameters:
+        - name: Contrato
+          in: path
+          description: Chave da dívida desejada
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MdTelefone"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/MdTelefone"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MdTelefone"
+        description: Telefone
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Telefone criado com sucesso
+        "400":
+          description: Erro ao salvar Telefone do cliente DDD e Telefone já cadastrado
+            para este cliente
+        "500":
+          description: Erro geral
+  /api/Localizacao/Endereco/TipoEndereco:
+    get:
+      tags:
+        - LocalizacaoEndereco
+      summary: Tipos de endereço
+      description: Lista os tipos de endereço permitidos para uso da assessoria.
+      operationId: Localizacao_ListaTipoEndereco
+      responses:
+        "200":
+          description: Lista de Tipo Endereço
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/clsBase"
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/clsBase"
+        "400":
+          description: Sem tipo de Endereço configurado
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Localizacao/Endereco/{Contrato}":
+    post:
+      tags:
+        - LocalizacaoEndereco
+      summary: Cadastrar endereço do cliente
+      description: Salva um endereço para o cliente do contrato informado.
+      operationId: Localizacao_SalvarEndereco
+      parameters:
+        - name: Contrato
+          in: path
+          description: Chave da dívida desejada
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MdEndereco"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/MdEndereco"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MdEndereco"
+        description: Endereço
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Endereço criado com sucesso
+        "400":
+          description: UF inválida
+        "500":
+          description: Erro geral
+  "/api/Negociacao/TiposAcordo/{ChaveDivida}":
+    get:
+      tags:
+        - Negociacao
       summary: Tipos de acordo elegíveis
-      tags: [Negociacao]
+      description: Lista os tipos de acordo disponíveis para negociação da dívida.
+      operationId: Negociacao_TiposAcordo
       parameters:
         - name: ChaveDivida
           in: path
+          description: Chave da dívida
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
-        '200':
-          description: Tipos de acordo
+        "200":
+          description: Lista tipo de acordos elegíveis para negociacao
           content:
             application/json:
               schema:
                 type: array
-                items: { $ref: '#/components/schemas/clsBase' }
-
-  /api/Negociacao/ObterOrigens/{Contrato}:
+                items:
+                  $ref: "#/components/schemas/clsBase"
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/clsBase"
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Negociacao/ObterOrigens/{Contrato}":
     get:
+      tags:
+        - Negociacao
       summary: Origens da dívida
-      tags: [Negociacao]
+      description: Lista as parcelas e dívidas elegíveis para negociação.
+      operationId: Negociacao_ObterOrigens
       parameters:
         - name: Contrato
           in: path
+          description: código do contrato de dívida
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
-        '200':
-          description: Origens
+        "200":
+          description: Lista das parcelas e dividas elegíveis para negociacao
           content:
             application/json:
               schema:
                 type: array
-                items: { $ref: '#/components/schemas/MdDividaOrigem' }
-
-  /api/Negociacao/Simular:
-    post:
-      summary: Simular negociação
-      tags: [Negociacao]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/MdSimulacao' }
-      responses:
-        '200':
-          description: Resultado da simulação
+                items:
+                  $ref: "#/components/schemas/MdDividaOrigem"
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MdDividaOrigem"
+        "400":
+          description: Sem Dívida não encontrada
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/MdRetornoSimulacao' }
-
-  /api/Negociacao/AprovarSimulacao/{IdSimulacao}:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  /api/Negociacao/Simular:
     post:
+      tags:
+        - Negociacao
+      summary: Simular negociação
+      description: Simula uma opção de acordo conforme o objeto enviado. O IdSimulacao
+        retornado é usado na aprovação.
+      operationId: Negociacao_Simular
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MdSimulacao"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/MdSimulacao"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MdSimulacao"
+        description: Objeto de simulação
+        required: true
+      responses:
+        "200":
+          description: Dados da Simulação para posteriormente formalizar um acordo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MdRetornoSimulacao"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/MdRetornoSimulacao"
+        "400":
+          description: Contrato -Número do  Contrato- está em negociação com outro
+            usuário, tente novamente mais tarde
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Negociacao/AprovarSimulacao/{IdSimulacao}":
+    post:
+      tags:
+        - Negociacao
       summary: Aprovar simulação
-      tags: [Negociacao]
+      description: Uma vez simulado o acordo, ele é aprovado através do id único da
+        simulação.
+      operationId: Negociacao_AprovarSimulacao
       parameters:
         - name: IdSimulacao
           in: path
+          description: id da simulação realizada
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       requestBody:
-        required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/MdAprovaAcordo' }
+            schema:
+              $ref: "#/components/schemas/MdAprovaAcordo"
+          text/json:
+            schema:
+              $ref: "#/components/schemas/MdAprovaAcordo"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/MdAprovaAcordo"
+        description: Dados do Login de Aprovacao
+        required: true
       responses:
-        '200':
-          description: Acordo aprovado
-
-  /api/Negociacao/Acordo/{ChaveNegociacao}:
-    delete:
-      summary: Cancelar acordo
-      tags: [Negociacao]
-      parameters:
-        - name: ChaveNegociacao
-          in: path
-          required: true
-          schema: { type: string }
-      responses:
-        '204':
-          description: Acordo cancelado
-
-  /api/Negociacao/Acordo/Boleto/{ChaveNegociacao}/{Parcela}:
-    get:
-      summary: Emitir boleto
-      tags: [Negociacao]
-      parameters:
-        - name: ChaveNegociacao
-          in: path
-          required: true
-          schema: { type: string }
-        - name: Parcela
-          in: path
-          required: true
-          schema: { type: integer }
-      responses:
-        '200':
-          description: Boleto gerado
+        "200":
+          description: Acordo Aprovado
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/MdRetornoBoletoAssessoria' }
-
-  /api/Negociacao/Acordo/status/{SqAcordo}:
+              schema:
+                $ref: "#/components/schemas/MdRetonoAcordo"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/MdRetonoAcordo"
+        "400":
+          description: Proposta vencida, realize nova simulação
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Negociacao/Acordo/{ChaveNegociacao}":
+    delete:
+      tags:
+        - Negociacao
+      summary: Cancelar acordo
+      description: Cancela um acordo realizado pela assessoria.
+      operationId: Negociacao_CancelarAcordo
+      parameters:
+        - name: ChaveNegociacao
+          in: path
+          description: Chave de Negociação recebida durante o processo de Acordo
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/json:
+              schema:
+                type: object
+        "204":
+          description: Acordo Cancelado com sucesso
+        "400":
+          description: Não é permitido o cancelamento do acordo
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: Erros internos
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Negociacao/Acordo/Boleto/{ChaveNegociacao}/{Parcela}":
     get:
+      tags:
+        - Negociacao
+      summary: Emitir boleto
+      description: Gera o boleto da parcela do acordo.
+      operationId: Negociacao_Boleto
+      parameters:
+        - name: ChaveNegociacao
+          in: path
+          description: Chave de Negociação recebida durante o processo de Acordo
+          required: true
+          schema:
+            type: string
+        - name: Parcela
+          in: path
+          description: Número da parcela
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Boleto Emitido com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MdRetornoBoletoAssessoria"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/MdRetornoBoletoAssessoria"
+        "400":
+          description: "Boleto indisponível: o acordo é pago com Pix"
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: Erros internos
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Negociacao/Acordo/status/{SqAcordo}":
+    get:
+      tags:
+        - Negociacao
       summary: Status do acordo
-      tags: [Negociacao]
+      description: Valida a existência de um acordo e retorna sua situação.
+      operationId: Negociacao_status
       parameters:
         - name: SqAcordo
           in: path
+          description: SqAcordo Recebido na negociacao
           required: true
-          schema: { type: string }
+          schema:
+            type: string
       responses:
-        '200':
-          description: Status
+        "200":
+          description: Acordo Encontrato
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/MdDadosAcordo' }
-
+              schema:
+                $ref: "#/components/schemas/MdDadosAcordo"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/MdDadosAcordo"
+        "404":
+          description: Acordo não encontrado
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: Erros internos
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
   /api/Pagamento:
     get:
+      tags:
+        - Pagamento
       summary: Listar pagamentos
-      tags: [Pagamento]
+      description: Gera lista de pagamentos realizados no credor para envio à
+        assessoria do usuário conectado.
+      operationId: Pagamento_Get
       responses:
-        '200':
+        "200":
           description: Pagamentos
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/IRetornoPagamento' }
-
+              schema:
+                $ref: "#/components/schemas/IRetornoPagamento"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/IRetornoPagamento"
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Pagamento/{acesso}":
+    get:
+      tags:
+        - Pagamento
+      summary: Listar pagamentos por acesso
+      description: Gera lista de pagamentos realizados no credor para envio à
+        assessoria do usuário conectado.
+      operationId: Pagamento_PagamentoLogin
+      parameters:
+        - name: acesso
+          in: path
+          description: Login do usuário; deve ser o mesmo do token.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Pagamentos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IRetornoPagamento"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/IRetornoPagamento"
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
   /api/Retirada:
     get:
+      tags:
+        - Retirada
       summary: Listar retiradas
-      tags: [Retirada]
+      description: Gera lista de retiradas da assessoria para o usuário conectado.
+      operationId: Retirada_Get
       responses:
-        '200':
+        "200":
           description: Retiradas
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/IRetirada' }
-
+              schema:
+                $ref: "#/components/schemas/IRetirada"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/IRetirada"
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  "/api/Retirada/{acesso}":
+    get:
+      tags:
+        - Retirada
+      summary: Listar retiradas por acesso
+      description: Gera lista de retiradas da assessoria para o usuário conectado.
+      operationId: Retirada_RetiradaLogin
+      parameters:
+        - name: acesso
+          in: path
+          description: Login do usuário; deve ser o mesmo do token.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Retiradas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IRetirada"
+            text/json:
+              schema:
+                $ref: "#/components/schemas/IRetirada"
+        "400":
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+        "500":
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+servers:
+  - url: http://localhost:44303
 components:
   schemas:
-
     AccessToken:
+      description: Objeto token retornado pela rotina de autorização.
       type: object
       properties:
-        access_token: { type: string }
-        token_type: { type: string }
-        expires_in: { type: integer }
+        access_token:
+          description: ""
+          type: string
+        token_type:
+          description: ""
+          type: string
+        expires_in:
+          format: int32
+          description: ""
+          type: integer
+        refresh_token:
+          description: ""
+          type: string
+        username:
+          description: ""
+          type: string
+        usermail:
+          description: ""
+          type: string
+    IRetornoAcordo:
+      description: Classe de retorno dos acordos de um protocolo
+      type: object
+      properties:
+        nrProtocoloAcordo:
+          format: int64
+          description: Protocolo de Acordos
+          type: integer
+        solicitante:
+          description: Usuário solicitante
+          type: string
+        Acordos:
+          description: Lista de Acordos Acordos
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemAcordo"
+    ItemAcordo:
+      description: Classe reduzida para retornar Acordos assessoria
+      type: object
+      properties:
+        chaveNegociacao:
+          description: "chave de identificação da Negociação\r
+
+            Utilziado para emissão de boleto , sms whatsapp"
+          type: string
+          readOnly: true
+        nrInscricao:
+          description: Incrição cliente Nrpf ou Nrcnpj
+          type: string
+        dtNegociacao:
+          format: date-time
+          description: Data da formalizacao do acordo
+          type: string
+        dtCorrigirAte:
+          format: date-time
+          description: Data de correção utilizada para negociar
+          type: string
+        cdAcionador:
+          format: int32
+          description: Código da terceirizada - código Acionador
+          type: integer
+        sqAcordo:
+          format: int64
+          description: Código do acordo
+          type: integer
+        vrDescCorrecao:
+          format: double
+          description: Valor descontos na correção
+          type: number
+        vrDescJuros:
+          format: double
+          description: Valor descontos juros
+          type: number
+        vrDescMulta:
+          format: double
+          description: Valor descontos Multa
+          type: number
+        vrDescPrincipal:
+          format: double
+          description: Valor descontos Principal
+          type: number
+        vrAcrescimos:
+          format: double
+          description: Valor Acrescimos
+          type: number
+        vrTotalAcordo:
+          format: double
+          description: Valor Total Acordo
+          type: number
+        nrParcelas:
+          format: int32
+          description: Números de parcelas negociadas
+          type: integer
+        cdAutorizacao:
+          description: Código de exceção para negociacao
+          type: string
+        negociador:
+          description: Usuário que realizou negociação
+          type: string
+        cdTipoAcordo:
+          format: int32
+          description: Código do tipo de acordo
+          type: integer
+        parcelasOriginais:
+          description: Parcelas originais da divida envolvidas na negociacao
+          type: array
+          items:
+            $ref: "#/components/schemas/IParcelaBase"
+        parcelasAcordo:
+          description: Parcelas Negociadas do acordo
+          type: array
+          items:
+            $ref: "#/components/schemas/NegociadasAcordo"
+    IParcelaBase:
+      description: Classe de Estrutura da Parcela
+      type: object
+      properties:
+        idDivida:
+          description: Identificação da Dívida
+          type: string
+        dtVencimento:
+          format: date-time
+          description: Data de vencimento da parcela original
+          type: string
+        vrParcela:
+          format: double
+          description: Valor da parcela original
+          type: number
+    NegociadasAcordo:
+      description: Classe reduzida parcelas Negociadas
+      type: object
+      properties:
+        sqParcela:
+          format: int32
+          description: Número da parcela
+          type: integer
+        dtVencimento:
+          format: date-time
+          description: Data vencimento da parcela
+          type: string
+        vrParcela:
+          format: double
+          description: Valor Parcela
+          type: number
+        vrTxBoleta:
+          format: double
+          description: Valor taxa de boleta
+          type: number
+        vrTxDi:
+          format: double
+          description: Valor taxa de depósito Identificado
+          type: number
+        nrNossoNumero:
+          format: int64
+          description: Nosso número
+          type: integer
+        vrDespesaCobranca:
+          format: double
+          description: Valor despesas de Cobrança - TAC
+          type: number
+    IRetornoDivida:
+      description: Retorno de divida de um protocolo
+      type: object
+      properties:
+        nrProtocoloCarga:
+          format: int64
+          description: Protocolo de retirada
+          type: integer
+        solicitante:
+          description: Usuário solicitante de carga
+          type: string
+        Dividas:
+          description: Lista de Dívidas do protocolo
+          type: array
+          items:
+            $ref: "#/components/schemas/IDividaCarga"
+    IDividaCarga:
+      description: Divida
+      type: object
+      properties:
+        nrInscricao:
+          description: Incrição cliente Nrpf ou Nrcnpj
+          type: string
+        tpPessoa:
+          description: Tipo pessoa Fisica ou Juridica F=Física / J=Jurídica
+          type: string
+        cdPessoaCredor:
+          description: Código do cliente no credor
+          type: string
+        cdContrato:
+          description: Número do contrato
+          type: string
+        dtContrato:
+          format: date-time
+          description: Data do contrato
+          type: string
+        pcJuros:
+          description: Taxa juros do contrato
+          type: string
+        pcDesagio:
+          description: Percentual de deságio do contrato
+          type: string
+        cdProdutoCredor:
+          description: Código do Produto da divida
+          type: string
+        nomeProduto:
+          description: Código do Produto da divida
+          type: string
+        cdSubProdutoCredor:
+          description: Código do sub produto da dívida
+          type: string
+        nome:
+          description: Nome do cliente
+          type: string
+        cdItemClassificao2:
+          description: Código da classificação 2 da dívida - Regional Filial
+          type: string
+        parcelasDivida:
+          description: Parcelas originais da divida
+          type: array
+          items:
+            $ref: "#/components/schemas/IParcelaOriginal"
+        enderecosPessoa:
+          description: Endereços do cliente
+          type: array
+          items:
+            $ref: "#/components/schemas/Enderecos"
+        telefonesPessoa:
+          description: Telefones do cliente
+          type: array
+          items:
+            $ref: "#/components/schemas/Telefones"
+        emailPessoa:
+          description: Emails do clinte
+          type: array
+          items:
+            $ref: "#/components/schemas/Emails"
+        dadosComplementares:
+          description: Emails do clinte
+          type: array
+          items:
+            $ref: "#/components/schemas/IComplemento"
+    IParcelaOriginal:
+      description: Classe reduzida parcelas originais
+      type: object
+      properties:
+        idDivida:
+          description: Identificação da Dívida
+          type: string
+        nrBanco:
+          description: Número do banco
+          type: string
+        nrAgencia:
+          description: Número agencia banco
+          type: string
+        nrContaCorrente:
+          description: Número da conta no banco
+          type: string
+        nrCheque:
+          description: Número do cheque
+          type: string
+        dtLimiteAcordo:
+          format: date-time
+          description: Data limite acordo
+          type: string
+        nomeLoja:
+          description: Nome fornecedor loja
+          type: string
+        nrFilial:
+          description: Filial da dívida - Classificação 2 da dívida
+          type: string
+        vrOriginal:
+          format: double
+          description: Valor original da parcela
+          type: number
+        nrAlinea:
+          description: Número da alinea do cheque
+          type: string
+        dtBaseNegociacao:
+          format: date-time
+          description: Data base de negociacao divida
+          type: string
+        nomeFantasia:
+          description: Nome fantasia pessoa juridica
+          type: string
+        chequeProtestado:
+          description: Cheque protestado S-Sim N-Nao
+          type: string
+        dadosComplementares:
+          description: Dados Complementares da Parcela
+          type: array
+          items:
+            $ref: "#/components/schemas/IComplemento"
+        dtVencimento:
+          format: date-time
+          description: Data de vencimento da parcela original
+          type: string
+        vrParcela:
+          format: double
+          description: Valor da parcela original
+          type: number
+    Enderecos:
+      description: Classe reduzida endereco
+      type: object
+      properties:
+        cdTipoEndereco:
+          format: int32
+          description: Tipo endereço para assessoria
+          type: integer
+        tpLogradouro:
+          description: Tipo Logradouro endereço
+          type: string
+        nmlogradouro:
+          description: Endereço do cliente
+          type: string
+        nrEndereco:
+          description: Número do Endereco
+          type: string
+        nmComplemento:
+          description: Complemento Endereço
+          type: string
+        nmBairro:
+          description: Bairro endereço
+          type: string
+        cidade:
+          description: Cidade
+          type: string
+        uf:
+          description: Unidade Federativa - UF
+          type: string
+        nrCep:
+          description: Número do CEP
+          type: string
+    Telefones:
+      description: Classe reduzida Telefone
+      type: object
+      properties:
+        cdTipoTelefone:
+          format: int32
+          description: Tipo telefone para assessoria
+          type: integer
+        nrDDD:
+          format: int64
+          description: Número DDD do Telefone
+          type: integer
+        NrTelefone:
+          format: int64
+          description: Numero do telefone
+          type: integer
+    Emails:
+      description: Classe Reduzida email
+      type: object
+      properties:
+        nmEmailPessoa:
+          description: E-mail do cliente
+          type: string
+    IComplemento:
+      description: Dados complementares
+      type: object
+      properties:
+        Nome:
+          description: Nome do complemento
+          type: string
+        Codigo:
+          format: int32
+          description: Código do Complemento
+          type: integer
+        Valor:
+          description: Valor do Complemento
+          type: string
+    MdTelefoneAssessoria:
+      type: object
+      properties:
+        CdTipoTelefone:
+          format: int32
+          type: integer
+        NrDDD:
+          format: int64
+          type: integer
+        NrTelefone:
+          format: int64
+          type: integer
+        Situacao:
+          format: int32
+          type: integer
+        SituacaoDescricao:
+          type: string
+    MdEnderecoAssessoria:
+      type: object
+      properties:
+        CdTipoEndereco:
+          format: int32
+          type: integer
+        TpLogradouro:
+          type: string
+        NmLogradouro:
+          type: string
+        NrEndereco:
+          type: string
+        NmComplemento:
+          type: string
+        NmBairro:
+          type: string
+        Cidade:
+          type: string
+        Uf:
+          type: string
+        NrCep:
+          type: string
+        Situacao:
+          format: int32
+          type: integer
+        SituacaoDescricao:
+          type: string
+    MdEmailAssessoria:
+      type: object
+      properties:
+        NmEmail:
+          type: string
+        Situacao:
+          format: int32
+          type: integer
+        SituacaoDescricao:
+          type: string
+    clsBase:
+      type: object
+      properties:
+        codigo:
+          format: int32
+          type: integer
+        nome:
+          type: string
+        InDesativado:
+          type: boolean
+    AcionamentoReduzido:
+      description: Registros de Acionamento
+      type: object
+      properties:
+        CodigoEvento:
+          format: int32
+          description: Evento do acionamento.
+          type: integer
+        DataHoraOcorrencia:
+          format: date-time
+          description: data da ocorrência formato dd/MM/yyyy
+          type: string
+        DataHoraTermino:
+          format: date-time
+          description: Data e hora do término do acionamento no formato dd/MM/yyyy.
+          type: string
+        DsNotas:
+          description: Texto descrição da ocorrência gerada texto livre
+          type: string
+        Telefones:
+          description: Objeto com os eventos de discagem (utilizado para discagem
+            automatizada).
+          type: array
+          items:
+            $ref: "#/components/schemas/DiscagemReduzida"
+    DiscagemReduzida:
+      type: object
+      properties:
+        NrDDD:
+          format: int32
+          description: DDD Contatado
+          type: integer
+        NrTelefone:
+          format: int64
+          description: Numero Telefone
+          type: integer
+    MdEmail:
+      description: Classe responsãvel pela estrutura de e-mail
+      type: object
+      properties:
+        Email:
+          description: Email do cliente
+          type: string
+    MdTelefone:
+      type: object
+      properties:
+        CodigoTipo:
+          format: int32
+          description: Cõdigo do Tipo de Telefone
+          type: integer
+        NrDDD:
+          format: int32
+          description: DDD
+          type: integer
+        NrTelefone:
+          format: int64
+          description: Numero do Telefone
+          type: integer
+    MdEndereco:
+      type: object
+      properties:
+        CodigoTipo:
+          format: int32
+          description: Cõdigo do Tipo de Endereço
+          type: integer
+        TipoLogradouro:
+          description: Tipo Logradouro
+          type: string
+        Endereco:
+          description: Endereço
+          type: string
+        Numero:
+          description: Número
+          type: string
+        Complemento:
+          description: Complemento
+          type: string
+        Bairro:
+          description: Bairro
+          type: string
+        Cidade:
+          description: Cidade
+          type: string
+        UF:
+          description: UF
+          type: string
+        CEP:
+          format: int32
+          description: Numero do CEP
+          type: integer
+        PreferencialCorrespondencia:
+          description: Endereço preferencial para Correspondência
+          type: boolean
     MdDividaOrigem:
       type: object
       properties:
         ChaveDivida:
           type: string
-          example: DIV-123456
         Contrato:
           type: string
-          example: CTR-998877
         Produto:
           type: string
-          example: Cartão de Crédito
         Parcelas:
           type: array
           items:
-            $ref: '#/components/schemas/MdPOOrigem'
+            $ref: "#/components/schemas/MdPOOrigem"
     MdPOOrigem:
       type: object
       properties:
         IdParcela:
           type: string
-          example: PARC-1
+          readOnly: true
         ChavePO:
           type: string
-          example: PO-98765
         DtVencimento:
-          type: string
           format: date-time
-          example: '2025-12-10T00:00:00'
+          type: string
         NrTitulo:
           type: string
-          example: TIT-445566
         VrPrincipal:
-          type: number
           format: double
-          example: 350.75
+          type: number
     MdSimulacao:
       type: object
-      required:
-        - QtParcelas
-        - TipoAcordo
-        - DtPrimeiroVencimento
-        - Origens
       properties:
         QtParcelas:
+          format: int32
           type: integer
-          example: 3
         TipoAcordo:
+          format: int32
           type: integer
-          example: 1
         DtPrimeiroVencimento:
-          type: string
           format: date-time
-          example: '2026-01-10T00:00:00'
+          type: string
         PrimeiraParcela:
-          $ref: '#/components/schemas/MdEntrada'
+          $ref: "#/components/schemas/MdEntrada"
         PcDescontoAplicado:
-          type: number
           format: double
-          example: 20.0
+          type: number
         Origens:
           type: array
           items:
-            $ref: '#/components/schemas/MdBaseDividaOrigem'
+            $ref: "#/components/schemas/MdBaseDividaOrigem"
+        PropostaExcecao:
+          type: boolean
+        VrParcela:
+          format: double
+          type: number
+        NotasExcecao:
+          type: string
     MdEntrada:
       type: object
       properties:
         DtEntrada:
-          type: string
           format: date-time
-          example: '2025-12-05T00:00:00'
+          type: string
         VrEntrada:
-          type: number
           format: double
-          example: 150.00
+          type: number
     MdBaseDividaOrigem:
       type: object
       properties:
         ChaveDivida:
           type: string
-          example: DIV-123456
         Contrato:
           type: string
-          example: CTR-998877
     MdRetornoSimulacao:
       type: object
       properties:
         IdSimulacao:
           type: string
-          example: SIM-000123
         DtValidade:
-          type: string
           format: date-time
-          example: '2026-01-31T23:59:59'
+          type: string
         Descontos:
-          $ref: '#/components/schemas/MdDescontos'
+          $ref: "#/components/schemas/MdDescontos"
         ParcelasAcordo:
           type: array
           items:
-            $ref: '#/components/schemas/MdParcelaAcordo'
+            $ref: "#/components/schemas/MdParcelaAcordo"
+        PropostaExcecao:
+          type: boolean
     MdDescontos:
       type: object
       properties:
         Principal:
-          $ref: '#/components/schemas/MdBaseDescontos'
+          $ref: "#/components/schemas/MdBaseDescontos"
         Juros:
-          $ref: '#/components/schemas/MdBaseDescontos'
+          $ref: "#/components/schemas/MdBaseDescontos"
         Multa:
-          $ref: '#/components/schemas/MdBaseDescontos'
+          $ref: "#/components/schemas/MdBaseDescontos"
         Correcao:
-          $ref: '#/components/schemas/MdBaseDescontos'
-    MdBaseDescontos:
-      type: object
-      properties:
-        ValorDevido:
-          type: number
-          format: double
-          example: 500.00
-        ValorDesconto:
-          type: number
-          format: double
-          example: 100.00
-        PercentualAplicado:
-          type: number
-          format: double
-          example: 20.0
-        ValorCobrado:
-          type: number
-          format: double
-          example: 400.00
+          $ref: "#/components/schemas/MdBaseDescontos"
     MdParcelaAcordo:
       type: object
       properties:
         SqParcela:
+          format: int32
           type: integer
-          example: 1
         DtVencimento:
-          type: string
           format: date-time
-          example: '2026-01-10T00:00:00'
+          type: string
         VrParcela:
-          type: number
           format: double
-          example: 180.00
+          type: number
+        VrTAC:
+          format: double
+          type: number
+        VrMC:
+          format: double
+          type: number
         VrAcrescimos:
-          type: number
           format: double
-          example: 5.50
+          type: number
+        VrAcrescimosBoleta:
+          format: double
+          type: number
+        VrAcrescimoDI:
+          format: double
+          type: number
+        VrTaxaCobranca:
+          format: double
+          type: number
+        VrTaxaCartao:
+          format: double
+          type: number
         VrTotal:
-          type: number
           format: double
-          example: 185.50
-    MdAprovaAcordo:
+          type: number
+          readOnly: true
+    MdBaseDescontos:
       type: object
-      required:
-        - LoginNegociador
+      properties:
+        ValorDevido:
+          format: double
+          type: number
+        ValorDesconto:
+          format: double
+          type: number
+        PercentualAplicado:
+          format: double
+          type: number
+        ValorCobrado:
+          format: double
+          type: number
+          readOnly: true
+    MdAprovaAcordo:
+      description: Dados do Operador que realiza a aprovação do acordo
+      type: object
       properties:
         LoginNegociador:
+          description: Login do operador que aprovou o acordo
           type: string
-          example: operador01
-    MdRetornoBoletoAssessoria:
+    MdRetonoAcordo:
       type: object
       properties:
-        SqParcelaCredor:
+        ChaveNegociacao:
+          type: string
+          readOnly: true
+        SqAcordo:
+          type: string
+        Negociador:
+          type: string
+        PN:
+          type: array
+          items:
+            $ref: "#/components/schemas/MdParcelaAcordo"
+        IdPropostaExcecao:
+          format: int32
           type: integer
-          example: 12345
+        SituacaoExcecao:
+          type: string
+        SituacaoExcecaoDescricao:
+          type: string
+    MdRetornoBoletoAssessoria:
+      description: Retorno do boleto gerado pela assessoria
+      type: object
+      properties:
+        Arquivo:
+          format: byte
+          description: Arquivo do boleto
+          type: string
+        ArquivoBase64:
+          description: Arquivo de boleta no formato base64
+          type: string
+          readOnly: true
+        SqParcelaCredor:
+          format: int32
+          description: Número da parcela
+          type: integer
         LinhaDigitavel:
+          description: Linha digitavel
           type: string
-          example: 34191.79001 01043.510047 91020.150008 1 88940000018550
-        CodigoBarras:
-          type: string
-          example: 3419188940000018550
         DtVencimento:
-          type: string
           format: date-time
-          example: '2026-01-10T00:00:00'
+          description: Vencimento do boleto
+          type: string
+        CodigoBarras:
+          description: Código de barras para pagamento
+          type: string
+        DtLimitePagamento:
+          format: date-time
+          description: Data Limite de Pagamento
+          type: string
         VlBoleta:
-          type: number
           format: double
-          example: 185.50
+          description: Valor do boleto
+          type: number
     MdDadosAcordo:
       type: object
       properties:
         ChaveNegociacao:
           type: string
-          example: NEG-998877
+          readOnly: true
         SqAcordo:
           type: string
-          example: 556677
         Negociador:
           type: string
-          example: operador01
         StatusAcordo:
+          format: int32
+          enum:
+            - 0
+            - 1
+            - 2
           type: integer
-          enum: [0, 1, 2]
-          example: 1
         StatusAcordoDescricao:
           type: string
-          example: Ativo
-    clsBase:
-      type: object
-      properties:
-        codigo:
-          type: integer
-          example: 1
-        nome:
+          readOnly: true
+        SituacaoExcecao:
           type: string
-          example: À Vista
-        InDesativado:
-          type: boolean
-          example: false
-    IRetornoAcordo:
-      type: object
-      properties:
-        nrProtocoloAcordo:
-          type: integer
-          format: int64
-          example: 987654321
-        solicitante:
+        SituacaoExcecaoDescricao:
           type: string
-          example: sistema_externo
-        Acordos:
-          type: array
-          items:
-            $ref: '#/components/schemas/ItemAcordo'
-    ItemAcordo:
-      type: object
-      properties:
-        chaveNegociacao:
-          type: string
-          example: NEG-123456
-        nrInscricao:
-          type: string
-          example: 12345678901
-        dtNegociacao:
-          type: string
-          format: date-time
-          example: '2026-01-05T14:32:10'
-        dtCorrigirAte:
-          type: string
-          format: date-time
-          example: '2026-01-31T23:59:59'
-        cdAcionador:
-          type: integer
-          example: 45
-        sqAcordo:
-          type: integer
-          format: int64
-          example: 556677
-        vrDescCorrecao:
-          type: number
-          format: double
-          example: 15.50
-        vrDescJuros:
-          type: number
-          format: double
-          example: 20.00
-        vrDescMulta:
-          type: number
-          format: double
-          example: 10.00
-        vrDescPrincipal:
-          type: number
-          format: double
-          example: 100.00
-        vrAcrescimos:
-          type: number
-          format: double
-          example: 5.00
-        vrTotalAcordo:
-          type: number
-          format: double
-          example: 350.75
-        nrParcelas:
-          type: integer
-          example: 3
-        cdAutorizacao:
-          type: string
-          example: AUT-9988
-        negociador:
-          type: string
-          example: operador01
-        cdTipoAcordo:
-          type: integer
-          example: 1
-        parcelasOriginais:
-          type: array
-          items:
-            $ref: '#/components/schemas/IParcelaBase'
-        parcelasAcordo:
-          type: array
-          items:
-            $ref: '#/components/schemas/NegociadasAcordo'
-    IParcelaBase:
-      type: object
-      properties:
-        idDivida:
-          type: string
-          example: DIV-001
-        dtVencimento:
-          type: string
-          format: date-time
-          example: '2025-11-10T00:00:00'
-        vrParcela:
-          type: number
-          format: double
-          example: 200.00
-    NegociadasAcordo:
-      type: object
-      properties:
-        sqParcela:
-          type: integer
-          example: 1
-        dtVencimento:
-          type: string
-          format: date-time
-          example: '2026-01-10T00:00:00'
-        vrParcela:
-          type: number
-          format: double
-          example: 180.00
-        vrTxBoleta:
-          type: number
-          format: double
-          example: 2.50
-        vrTxDi:
-          type: number
-          format: double
-          example: 1.20
-        nrNossoNumero:
-          type: integer
-          format: int64
-          example: 9876543210
-        vrDespesaCobranca:
-          type: number
-          format: double
-          example: 3.00
-    IRetornoDivida:
-      type: object
-      properties:
-        nrProtocoloCarga:
-          type: integer
-          format: int64
-          example: 123456789
-        solicitante:
-          type: string
-          example: sistema_externo
-        Dividas:
-          type: array
-          items:
-            $ref: '#/components/schemas/IDividaCarga'
-    IDividaCarga:
-      type: object
-      properties:
-        nrInscricao:
-          type: string
-          example: '12345678901'
-        tpPessoa:
-          type: string
-          example: F
-        cdPessoaCredor:
-          type: string
-          example: '998877'
-        cdContrato:
-          type: string
-          example: 'CTR-001122'
-        dtContrato:
-          type: string
-          format: date-time
-          example: '2020-01-10T00:00:00'
-        pcJuros:
-          type: string
-          example: '2.5'
-        pcDesagio:
-          type: string
-          example: '10'
-        cdProdutoCredor:
-          type: string
-          example: 'CC'
-        cdSubProdutoCredor:
-          type: string
-          example: 'CC01'
-        nome:
-          type: string
-          example: João da Silva
-        cdItemClassificao2:
-          type: string
-          example: CL01
-        parcelasDivida:
-          type: array
-          items:
-            $ref: '#/components/schemas/IParcelaOriginal'
-        enderecosPessoa:
-          type: array
-          items:
-            $ref: '#/components/schemas/Enderecos'
-        telefonesPessoa:
-          type: array
-          items:
-            $ref: '#/components/schemas/Telefones'
-        emailPessoa:
-          type: array
-          items:
-            $ref: '#/components/schemas/Emails'
-        dadosComplementares:
-          type: array
-          items:
-            $ref: '#/components/schemas/IComplemento'
-    IParcelaOriginal:
-      type: object
-      description: Parcela original da dívida enviada na carga
-      properties:
-        idDivida:
-          type: string
-          example: DIV-001
-
-        nrBanco:
-          type: string
-          example: '341'
-
-        nrAgencia:
-          type: string
-          example: '1234'
-
-        nrContaCorrente:
-          type: string
-          example: '56789-0'
-
-        nrCheque:
-          type: string
-          example: '000123'
-
-        dtLimiteAcordo:
-          type: string
-          format: date-time
-          example: '2026-01-31T23:59:59'
-
-        nomeLoja:
-          type: string
-          example: Loja Centro
-
-        nrFilial:
-          type: string
-          example: '01'
-
-        vrOriginal:
-          type: number
-          format: double
-          example: 500.00
-
-        nrAlinea:
-          type: string
-          example: '11'
-
-        dtBaseNegociacao:
-          type: string
-          format: date-time
-          example: '2025-12-01T00:00:00'
-
-        nomeFantasia:
-          type: string
-          example: Loja XPTO
-
-        chequeProtestado:
-          type: string
-          description: Indica se o cheque foi protestado (S/N)
-          example: N
-
-        dadosComplementares:
-          type: array
-          description: Informações complementares da parcela
-          items:
-            $ref: '#/components/schemas/IComplemento'
-
-        dtVencimento:
-          type: string
-          format: date-time
-          example: '2025-11-10T00:00:00'
-
-        vrParcela:
-          type: number
-          format: double
-          example: 350.75
-    IComplemento:
-      type: object
-      description: >
-        Informação complementar associada à dívida ou parcela.
-        Usado para transportar metadados adicionais enviados pelo credor.
-      properties:
-        Nome:
-          type: string
-          description: Nome do complemento
-          example: CanalOrigem
-
-        Codigo:
-          type: integer
-          description: Código identificador do complemento
-          example: 10
-
-        Valor:
-          type: string
-          description: Valor associado ao complemento
-          example: Digital
-    Enderecos:
-      type: object
-      description: Endereço associado à pessoa vinculada à dívida
-      properties:
-        cdTipoEndereco:
-          type: integer
-          description: Código do tipo de endereço
-          example: 1
-
-        tpLogradouro:
-          type: string
-          description: Tipo de logradouro
-          example: Rua
-
-        nmlogradouro:
-          type: string
-          description: Nome do logradouro
-          example: das Flores
-
-        nrEndereco:
-          type: string
-          description: Número do endereço
-          example: '123'
-
-        nmComplemento:
-          type: string
-          description: Complemento do endereço
-          example: Apto 45
-
-        nmBairro:
-          type: string
-          description: Bairro
-          example: Centro
-
-        cidade:
-          type: string
-          description: Cidade
-          example: São Paulo
-
-        uf:
-          type: string
-          description: Unidade federativa (UF)
-          example: SP
-
-        nrCep:
-          type: string
-          description: CEP
-          example: '01001000'
-    Telefones:
-      type: object
-      description: Telefone associado à pessoa vinculada à dívida
-      properties:
-        cdTipoTelefone:
-          type: integer
-          description: Código do tipo de telefone
-          example: 1
-
-        nrDDD:
-          type: integer
-          description: DDD do telefone
-          example: 11
-
-        NrTelefone:
-          type: integer
-          description: Número do telefone
-          example: 988776655
-    Emails:
-      type: object
-      description: Email associado à pessoa vinculada à dívida
-      properties:
-        nmEmailPessoa:
-          type: string
-          format: email
-          description: Endereço de e-mail
-          example: cliente@email.com
-    AcionamentoReduzido:
-      type: object
-      description: >
-        Estrutura reduzida para lançamento de evento (acionamento) na dívida.
-        Utilizada por integrações externas para registrar contatos, tentativas
-        ou ocorrências sem necessidade de payload completo.
-      required:
-        - cdEvento
-        - dtEvento
-      properties:
-        cdEvento:
-          type: integer
-          description: Código do evento a ser lançado
-          example: 101
-
-        dtEvento:
-          type: string
-          format: date-time
-          description: Data e hora em que o evento ocorreu
-          example: '2026-02-08T14:35:00-03:00'
-
-        observacao:
-          type: string
-          description: Observação livre associada ao evento
-          example: Cliente não atendeu a ligação
-
-        usuario:
-          type: string
-          description: Usuário ou sistema responsável pelo lançamento do evento
-          example: BOT_WHATSAPP
-
-        origem:
-          type: string
-          description: Origem do acionamento
-          example: AutoAtendimento
-
-        dadosComplementares:
-          type: array
-          description: Informações complementares do evento
-          items:
-            $ref: '#/components/schemas/IComplemento'
+          readOnly: true
     IRetornoPagamento:
+      description: Classe de retorno dos pagamentos
       type: object
-      description: Retorno de pagamentos realizados para as dívidas
       properties:
         nrProtocoloPagamento:
-          type: integer
           format: int64
-          description: Número de protocolo do envio de pagamentos
-          example: 987654321
-
-        solicitante:
-          type: string
-          description: Sistema ou usuário solicitante
-          example: sistema_externo
-
-        Pagamentos:
-          type: array
-          description: Lista de pagamentos realizados
-          items:
-            $ref: '#/components/schemas/IPagamento'
-    IPagamento:
-      type: object
-      description: Pagamento realizado para uma parcela ou acordo
-      properties:
-        cdContrato:
-          type: string
-          description: Código do contrato no credor
-          example: 'CTR-001122'
-
-        nrInscricao:
-          type: string
-          description: CPF ou CNPJ do devedor
-          example: '12345678901'
-
-        sqAcordo:
-          type: string
-          description: Identificador do acordo (quando aplicável)
-          example: AC-998877
-
-        nrParcela:
+          description: Protocolo de Pagamento
           type: integer
-          description: Número da parcela paga
-          example: 1
-
-        dtPagamento:
+        solicitante:
+          description: Usuário solicitante de carga
           type: string
-          format: date-time
-          description: Data e hora do pagamento
-          example: '2026-02-05T10:15:00-03:00'
-
-        vrPagamento:
-          type: number
-          format: double
-          description: Valor efetivamente pago
-          example: 350.75
-
-        formaPagamento:
-          type: string
-          description: Forma de pagamento utilizada
-          example: BOLETO
-
-        nrDocumento:
-          type: string
-          description: Número do documento de pagamento (linha digitável, NSU, etc.)
-          example: '34191.79001 01043.510047 91020.150008 7 88970000035075'
-
-        bancoRecebedor:
-          type: string
-          description: Banco recebedor do pagamento
-          example: '341'
-
-        dadosComplementares:
+        Pagamentos:
+          description: Lista de parcelas pagas
           type: array
-          description: Informações complementares do pagamento
           items:
-            $ref: '#/components/schemas/IComplemento'
-    IRetirada:
+            $ref: "#/components/schemas/IParcelaAcordo"
+    IParcelaAcordo:
+      description: Item pagamento
       type: object
-      description: Retorno das retiradas (baixas de parcelas ou contratos)
+      properties:
+        sqAcordo:
+          format: int64
+          description: Código da pessoa da divida
+          type: integer
+        sqParcelaCredor:
+          format: int32
+          description: Código da dívida
+          type: integer
+        dtVencimento:
+          format: date-time
+          description: Número da parcela a ser retirada
+          type: string
+        vrParcela:
+          format: double
+          description: Data de vencimento da parcela original
+          type: number
+        dtRecebimento:
+          format: date-time
+          description: Data recebimento da parcela
+          type: string
+        vrPagamento:
+          format: double
+          description: Valor da parcela original
+          type: number
+    IRetirada:
+      description: Classe de retorno de retiradas
+      type: object
       properties:
         nrProtocoloRetirada:
-          type: integer
           format: int64
-          description: Número de protocolo do envio de retiradas
-          example: 456789123
-
-        solicitante:
-          type: string
-          description: Sistema ou usuário solicitante
-          example: sistema_externo
-
-        Retiradas:
-          type: array
-          description: Lista de retiradas realizadas
-          items:
-            $ref: '#/components/schemas/IRetiradaItem'
-    IRetiradaItem:
-      type: object
-      description: Retirada (baixa) realizada em uma dívida ou parcela
-      properties:
-        cdContrato:
-          type: string
-          description: Código do contrato no credor
-          example: 'CTR-001122'
-
-        nrInscricao:
-          type: string
-          description: CPF ou CNPJ do devedor
-          example: '12345678901'
-
-        sqAcordo:
-          type: string
-          description: Identificador do acordo relacionado (quando aplicável)
-          example: AC-778899
-
-        nrParcela:
+          description: Protocolo de retirada
           type: integer
-          description: Número da parcela retirada (quando aplicável)
-          example: 1
-
-        dtRetirada:
+        solicitante:
+          description: Usuário que fez a solicitação.
           type: string
-          format: date-time
-          description: Data e hora da retirada
-          example: '2026-02-06T09:20:00-03:00'
-
-        motivoRetirada:
-          type: string
-          description: Motivo da retirada
-          example: ACORDO_CANCELADO
-
-        usuario:
-          type: string
-          description: Usuário ou sistema responsável pela retirada
-          example: SISTEMA_GAS
-
-        dadosComplementares:
+        Retiradas:
+          description: Lista de Parcelas Retiradas
           type: array
-          description: Informações complementares da retirada
           items:
-            $ref: '#/components/schemas/IComplemento'
+            $ref: "#/components/schemas/IRetiradaParcela"
+    IRetiradaParcela:
+      description: Classe Responsável por realizar a retirada
+      type: object
+      properties:
+        idDivida:
+          description: Identificação da Dívida
+          type: string
+        dtVencimento:
+          format: date-time
+          description: Data de vencimento da parcela original
+          type: string
+        vrParcela:
+          format: double
+          description: Valor da parcela original
+          type: number
+        nrInscricao:
+          description: Inscrição do cliente
+          type: string
